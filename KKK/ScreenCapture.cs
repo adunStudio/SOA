@@ -7,19 +7,14 @@ namespace KKK
 {
     class ScreenCapture
     {
-        public static Image Capture()
+        public static Image Capture(Rectangle rectangle)
         {
-            return CaptureWindow();
+            return PrintScreen(rectangle);
         }
 
-        private static Image CaptureWindow()
+        private static Bitmap PrintScreen(Rectangle bounds)
         {
-            return PrintScreen(Screen.PrimaryScreen);
-        }
-
-        private static Bitmap PrintScreen(Screen screen)
-        {
-            Rectangle bounds = screen.Bounds;
+            /*Rectangle bounds = screen.Bounds;
 
             // 디스플레이 범위 / 작업영역
             // 작업 영역은 작업 표시줄, 도킹된 창 및 도킹된 도구 모음을 제외한 디스플레이의 데스크톱 영역 
@@ -32,7 +27,7 @@ namespace KKK
                     width: screen.Bounds.Width + screen.WorkingArea.X,
                     height: screen.Bounds.Height + screen.WorkingArea.Y
                     );
-            }
+            }*/
 
             PixelFormat pixelFormat = new Bitmap(1, 1, Graphics.FromHwnd(IntPtr.Zero)).PixelFormat;
             Bitmap bitmap = new Bitmap(bounds.Width, bounds.Height, pixelFormat);

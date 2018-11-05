@@ -1,12 +1,27 @@
 ﻿using System;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using System.IO;
+using System.Timers;
 
 namespace KKK
 {
     class App : Form
     {
+        static App Instance = null;
+
+        static Point GetLocation()
+        {
+            return Instance.Location;
+        }
+
+        static Size GetSize()
+        {
+            return Instance.ClientSize;
+        }
+
         [DllImport("kernel32.dll")]
         static extern IntPtr GetConsoleWindow();
 
@@ -18,6 +33,11 @@ namespace KKK
 
         public App()
         {
+            if(Instance == null)
+            {
+                Instance = this;
+            }
+
             IntPtr handle = GetConsoleWindow();
             ShowWindow(handle, 0); // 콘솔 숨기기
 
@@ -41,7 +61,7 @@ namespace KKK
             this.MouseUp += new MouseEventHandler(this.OnMouseUp);
             this.MouseMove += new MouseEventHandler(this.OnMouseMove);
 
-            this.ResumeLayout(false);
+            this.ResumeLayout(false);   
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -54,7 +74,7 @@ namespace KKK
 
         private void OnLoad(object sender, EventArgs e)
         {
-
+            Run();
         }
 
         private void OnMouseDown(object sender, MouseEventArgs e)
@@ -77,6 +97,34 @@ namespace KKK
                     x: Location.X + m_MousePoint.X + e.X,
                     y: Location.Y + m_MousePoint.Y + e.Y);
             }
+        }
+
+        private void Run()
+        {
+            AutoCapture();
+        }
+
+        private void AutoCapture()
+        {
+            System.Timers.Timer timer = new System.Timers.Timer();
+            timer.Interval = 1000;
+
+            timer.Elapsed += (object sender, ElapsedEventArgs e) =>
+                {
+                    Rectangle rect = new Rectangle(
+                        x: Location.X,
+                        y: Location.Y,
+                        width: ClientSize.Width,
+                        height: ClientSize.Height
+                        );
+
+                    using (Image img = ScreenCapture.Capture(rect))
+                    {
+                        img.Save(Path.Combine(Environment.CurrentDirectory, "screenShoot.png"), ImageFormat.Png);
+                    }
+                };
+
+            timer.Start();
         }
     }
 }
