@@ -45,6 +45,11 @@ namespace KKK
             InitializeComponent();
         }
 
+        protected override void WndProc(ref Message m)
+        {
+            base.WndProc(ref m);
+        }
+
         private void InitializeComponent()
         {
             this.SuspendLayout();
