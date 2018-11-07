@@ -50,3 +50,7 @@
 #### 5. [011] winapi 함수 Win32 클래스로 이동 및 정리
 
 - enum, flag 추가, summary 정리
+
+#### 6. [012] 원하는 프로그램 핸들 가져오기
+
+- Win32.FindWindow

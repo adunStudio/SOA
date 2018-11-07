@@ -24,8 +24,7 @@ namespace KKK
             return Instance.ClientSize;
         }
 
-       
-
+  
         private bool m_IsMouseDowned = false;
         private Point m_MousePoint;
 
@@ -65,9 +64,9 @@ namespace KKK
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
-            Pen pen = new Pen(Color.Red, 9);
-            Rectangle rect = new Rectangle(0, 0, this.Width, this.Height);
-            e.Graphics.DrawRectangle(pen, rect);
+            //Pen pen = new Pen(Color.Red, 9);
+            //Rectangle rect = new Rectangle(0, 0, this.Width, this.Height);
+            //e.Graphics.DrawRectangle(pen, rect);
         }
 
         private void OnLoad(object sender, EventArgs e)
@@ -99,11 +98,23 @@ namespace KKK
 
         private void Run()
         {
-            PrintProcess();
+            FindWindow();
+            PrintWindow();
             //AutoCapture();
         }
 
-        private void PrintProcess()
+        private void FindWindow()
+        {
+            string name = "Zulip";
+            IntPtr handle = Win32.FindWindow(null, name);
+
+            if(handle != (IntPtr)0)
+            {
+                Win32.ShowWindow(handle, Win32.SW_SHOWMAXIMIZED);
+            }
+        }
+
+        private void PrintWindow()
         {
             Win32.EnumWindowCallback callback = new Win32.EnumWindowCallback(EnumWindowsProc);
             Win32.EnumWindows(callback, 0);
@@ -123,6 +134,12 @@ namespace KKK
                     {
                         Console.WriteLine(Buf.ToString());
                     }
+
+                    if (Win32.GetClassName(hWnd, Buf, 256) > 0)
+                    {
+                        Console.WriteLine(Buf.ToString());
+                    }
+                    Console.WriteLine("");
                 }
             }
 

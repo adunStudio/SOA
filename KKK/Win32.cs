@@ -108,7 +108,13 @@ namespace KKK.WindowAPI
         /// 핸들을 각 창에 차례로 응용 프로그램 정의 콜백 함수로 전달하여 화면의 모든 최상위 창을 열거한다.
         /// </summary>
         [DllImport("user32.dll")]
-        public static extern int EnumWindows(EnumWindowCallback callback, int lparam);
+        public static extern HWND EnumWindows(EnumWindowCallback callback, int lparam);
+
+        /// <summary>
+        /// 클래스 이름과 창 이름이 지정된 문자열과 일치하는 최상위 창에 대한 핸들을 검색한다.
+        /// </summary>
+        [DllImport("user32.dll")]
+        public static extern HWND FindWindow(string lpClassName, string lpWindowName);
 
         /// <summary>
         /// 지정된 윈도우의 부모 또는 소유자에 대한 핸들을 검색한다.
@@ -121,6 +127,12 @@ namespace KKK.WindowAPI
         /// </summary>
         [DllImport("user32.dll")]
         public static extern int GetWindowText(HWND hWnd, StringBuilder text, int count);
+
+        /// <summary>
+        /// 지정된 윈도우가 속한 클래스의 이름을 버퍼에 복사한다.
+        /// </summary>
+        [DllImport("user32.dll")]
+        public static extern int GetClassName(HWND hWnd, StringBuilder text, int count);
 
         /// <summary>
         /// 지정된 윈도우의 정보를 가져온다.
