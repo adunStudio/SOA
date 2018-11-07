@@ -46,3 +46,7 @@
 
 - window 관련 함수 WindowImport 클래스로 이동
 - 현재 실행중인 프로그램 목록 콘솔에 출력
+
+#### 5. [011] winapi 함수 Win32 클래스로 이동 및 정리
+
+- enum, flag 추가, summary 정리

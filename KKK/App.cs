@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.IO;
 using System.Timers;
 using System.Text;
+using KKK.WindowAPI;
 
 namespace KKK
 {
@@ -35,8 +36,8 @@ namespace KKK
                 Instance = this;
             }
 
-            IntPtr handle = WindowImport.GetConsoleWindow();
-            //WindowImport.ShowWindow(handle, 0); // 콘솔 숨기기
+            //IntPtr handle = Win32.GetConsoleWindow();
+            //Win32.ShowWindow(handle, Win32.SW_HIDE); // 콘솔 숨기기
 
             InitializeComponent();
         }
@@ -104,44 +105,27 @@ namespace KKK
 
         private void PrintProcess()
         {
-            WindowImport.EnumWindowCallback callback = new WindowImport.EnumWindowCallback(EnumWindowsProc);
-            WindowImport.EnumWindows(callback, 0);
+            Win32.EnumWindowCallback callback = new Win32.EnumWindowCallback(EnumWindowsProc);
+            Win32.EnumWindows(callback, 0);
         }
 
-        private bool EnumWindowsProc(int hWnd, int lParam)
-        {
-            // https://jeongbaek.wordpress.com/2017/08/14/c-%ED%98%84%EC%9E%AC-%EC%8B%A4%ED%96%89%EC%A4%91%EC%9D%B8-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%A8-%EB%AA%A9%EB%A1%9D-%EC%96%BB%EC%96%B4%EC%98%A4%EA%B8%B0/
-            
-            //윈도우 핸들로 그 윈도우의 스타일을 얻어옴
-            UInt32 style = (UInt32)WindowImport.GetWindowLong(hWnd, WindowImport.GCL_HMODULE);
-            //해당 윈도우의 캡션이 존재하는지 확인
-            if ((style & 0x10000000L) == 0x10000000L && (style & 0x00C00000L) == 0x00C00000L)
+        private bool EnumWindowsProc(IntPtr hWnd, int lParam)
+        {            
+            uint style = (uint)Win32.GetWindowLong(hWnd, Win32.GWL_STYLE);
+
+            if ((style & Win32.WS_VISIBLE) == Win32.WS_VISIBLE && (style & Win32.WS_CAPTION) == Win32.WS_CAPTION)
             {
-                //부모가 바탕화면인지 확인
-                if (WindowImport.GetParent(hWnd) == 0)
+                if (Win32.GetParent(hWnd) == (IntPtr)0)
                 {
                     StringBuilder Buf = new StringBuilder(256);
-                    //응용프로그램의 이름을 얻어온다
-                    if (WindowImport.GetWindowText(hWnd, Buf, 256) > 0)
+
+                    if (Win32.GetWindowText(hWnd, Buf, 256) > 0)
                     {
                         Console.WriteLine(Buf.ToString());
-                        /**try
-                        {
-                            //HICON 아이콘 핸들을 얻어온다
-                            IntPtr hIcon = WindowImport.GetClassLong((IntPtr)hWnd, WindowImport.GCL_HICON);
-                            //아이콘 핸들로 Icon 객체를 만든다
-                            Icon icon = Icon.FromHandle(hIcon);
-                            imgList.Images.Add(icon);
-                        }
-                        catch (Exception)
-                        {
-                            //예외의 경우는 자기 자신의 윈도우인 경우이다.
-                            imgList.Images.Add(this.Icon);
-                        }
-                        listView1.Items.Add(new ListViewItem(Buf.ToString(), listView1.Items.Count));**/
                     }
                 }
             }
+
             return true;
         }
 
