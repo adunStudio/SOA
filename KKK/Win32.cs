@@ -9,9 +9,21 @@ namespace KKK.WindowAPI
     static partial class Win32
     {
         public delegate bool EnumWindowCallback(HWND hwnd, int lParam);
+
+        #region WINDOWPLACEMENT struct
+        public struct WINDOWPLACEMENT
+        {
+            public int length;
+            public int flags;
+            public int showCmd;
+            public System.Drawing.Point ptMinPosition;
+            public System.Drawing.Point ptMaxPosition;
+            public System.Drawing.Rectangle rcNormalPosition;
+        }
+        #endregion
     }
 
-    #region ENUM
+    #region ENUM & FLAG
     static partial class Win32
     {
         #region GWL_ : GetWindowLong
@@ -145,6 +157,26 @@ namespace KKK.WindowAPI
         /// </summary>
         [DllImport("user32.dll")]
         public static extern IntPtr GetClassLong(HWND hwnd, uint nIndex);
+
+        /// <summary>
+        /// 지정된 윈도우의 상태와 위치를 검색(restored, minimized, maximized)
+        /// </summary>
+        [DllImport("user32.dll")]
+        public static extern bool GetWindowPlacement(HWND hWnd, ref WINDOWPLACEMENT lpwndpl);
+
+        public const int WM_GETTEXT = 0x000D;
+        public const int WM_GETTEXTLENGTH = 0x000E;
+
+        // The SendMessage function sends a Win32 message to the specified handle, it takes three
+        // ints as parameters, the message to send, and to optional parameters (pass 0 if not required).
+        [DllImport("User32.dll")]
+        public static extern Int32 SendMessage(int hWnd, int Msg, int wParam, int lParam);
+
+        // An overload of the SendMessage function, this time taking in a StringBuilder as the lParam.
+        // Through the series we'll use a lot of different SendMessage overloads as SendMessage is one
+        // of the most fundamental Win32 functions.
+        [DllImport("User32.dll")]
+        public static extern Int32 SendMessage(int hWnd, int Msg, int wParam, StringBuilder lParam);
     }
     #endregion
 }

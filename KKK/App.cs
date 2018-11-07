@@ -7,6 +7,7 @@ using System.IO;
 using System.Timers;
 using System.Text;
 using KKK.WindowAPI;
+using System.Globalization;
 
 namespace KKK
 {
@@ -28,6 +29,8 @@ namespace KKK
         private bool m_IsMouseDowned = false;
         private Point m_MousePoint;
 
+        private Win32.WINDOWPLACEMENT targetPlacement;
+
         public App()
         {
             if(Instance == null)
@@ -35,8 +38,9 @@ namespace KKK
                 Instance = this;
             }
 
-            //IntPtr handle = Win32.GetConsoleWindow();
-            //Win32.ShowWindow(handle, Win32.SW_HIDE); // 콘솔 숨기기
+            //SetConsoleVisible(false);
+
+            targetPlacement.length = 0;
 
             InitializeComponent();
         }
@@ -47,7 +51,9 @@ namespace KKK
 
             this.Text = "KakaoKungKuotta";
             this.Name = "KakaoKungKuotta";
-            this.ClientSize = new Size(350, 550);
+            this.StartPosition = FormStartPosition.Manual;
+            this.Location = new Point(0, 0);
+            this.ClientSize = new Size(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
             this.FormBorderStyle = FormBorderStyle.None;
             this.BackColor = Color.Black;
             this.TransparencyKey = Color.Black;
@@ -64,9 +70,16 @@ namespace KKK
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
-            //Pen pen = new Pen(Color.Red, 9);
-            //Rectangle rect = new Rectangle(0, 0, this.Width, this.Height);
-            //e.Graphics.DrawRectangle(pen, rect);
+
+            if(targetPlacement.length != 0)
+            {
+                Size size = new Size(targetPlacement.rcNormalPosition.Right - (targetPlacement.rcNormalPosition.Left * 2), targetPlacement.rcNormalPosition.Bottom - (targetPlacement.rcNormalPosition.Top * 2));
+                Point point = new Point(targetPlacement.rcNormalPosition.Left, targetPlacement.rcNormalPosition.Top);
+
+                Pen pen = new Pen(Color.Red, 6);
+                Rectangle rect = new Rectangle(point.X, point.Y, size.Width, size.Height);
+                e.Graphics.DrawRectangle(pen, rect);
+            }
         }
 
         private void OnLoad(object sender, EventArgs e)
@@ -98,20 +111,38 @@ namespace KKK
 
         private void Run()
         {
-            FindWindow();
-            PrintWindow();
             //AutoCapture();
+            //PrintWindow();
+
+            IntPtr handle = FindWindow("Zulip");
+            targetPlacement = GetWindowPlacement(handle);
+
+            Invalidate(true);
         }
 
-        private void FindWindow()
+        private Win32.WINDOWPLACEMENT GetWindowPlacement(IntPtr handle)
         {
-            string name = "Zulip";
+            Win32.WINDOWPLACEMENT placement = new Win32.WINDOWPLACEMENT();
+            placement.length = Marshal.SizeOf(placement);
+
+            if(Win32.GetWindowPlacement(handle, ref placement) == false)
+            {
+                placement.length = 0;
+            }
+
+            return placement;
+        }
+
+        private IntPtr FindWindow(string name)
+        {
             IntPtr handle = Win32.FindWindow(null, name);
 
             if(handle != (IntPtr)0)
             {
-                Win32.ShowWindow(handle, Win32.SW_SHOWMAXIMIZED);
+                return handle;
             }
+
+            return (IntPtr)0;
         }
 
         private void PrintWindow()
@@ -130,6 +161,9 @@ namespace KKK
                 {
                     StringBuilder Buf = new StringBuilder(256);
 
+                    string hexOutput = String.Format("{0:X}", hWnd);
+
+                    Console.WriteLine(hexOutput);
                     if (Win32.GetWindowText(hWnd, Buf, 256) > 0)
                     {
                         Console.WriteLine(Buf.ToString());
@@ -140,6 +174,20 @@ namespace KKK
                         Console.WriteLine(Buf.ToString());
                     }
                     Console.WriteLine("");
+
+                    /*
+                     * 다른 방법
+                     * // TODO: 비교
+                    int handle = int.Parse(Console.ReadLine());
+            
+                    int txtLength = Win32.SendMessage(handle, Win32.WM_GETTEXTLENGTH, 0, 0);
+
+                    StringBuilder sb = new StringBuilder(txtLength + 1);
+
+                    Win32.SendMessage(handle, Win32.WM_GETTEXT, sb.Capacity, sb);
+
+                    Console.Write(sb.ToString());
+                     */
                 }
             }
 
@@ -167,6 +215,12 @@ namespace KKK
                 };
 
             timer.Start();
+        }
+
+        private void SetConsoleVisible(bool visible)
+        {
+            IntPtr consoleHandle = Win32.GetConsoleWindow();
+            Win32.ShowWindow(consoleHandle, visible ? Win32.SW_SHOW : Win32.SW_HIDE);
         }
     }
 }
