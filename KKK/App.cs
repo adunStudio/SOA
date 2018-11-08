@@ -6,8 +6,9 @@ using System.Runtime.InteropServices;
 using System.IO;
 using System.Timers;
 using System.Text;
-using KKK.WindowAPI;
 using System.Globalization;
+using KKK.WindowAPI;
+using KKK.Helper;
 
 namespace KKK
 {
@@ -30,6 +31,8 @@ namespace KKK
         private Point m_MousePoint;
 
         private Win32.WINDOWPLACEMENT targetPlacement;
+
+        private HotKeyHelper m_HotKeyHelper = null;
 
         public App()
         {
@@ -117,13 +120,22 @@ namespace KKK
         private void Run()
         {
             //AutoCapture();
-            //PrintWindow();
+          //  PrintWindow();
+//
+            IntPtr handle = FindWindow("Adunis_Console");
+           // targetPlacement = GetWindowPlacement(handle);
 
-            IntPtr handle = FindWindow("Zulip");
-            targetPlacement = GetWindowPlacement(handle);
 
             Invalidate(true);
+
+            m_HotKeyHelper = new HotKeyHelper(handle, (int a) => {
+                Console.WriteLine("핫키!");
+            });
+
+            m_HotKeyHelper.AddListening(Keys.A, HotKeyModifiers.CONTROL);
+            m_HotKeyHelper.AddListening(Keys.B, HotKeyModifiers.CONTROL);
         }
+
 
         private Win32.WINDOWPLACEMENT GetWindowPlacement(IntPtr handle)
         {

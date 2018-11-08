@@ -5,10 +5,15 @@ using System.Runtime.InteropServices;
 namespace KKK.WindowAPI
 {
     using HANDLE = IntPtr;
+    using HINSTANCE = IntPtr;
+    using LRESULT = IntPtr;
+    using HMODULE = IntPtr;
 
     static partial class Win32
     {
         public delegate bool EnumWindowCallback(HANDLE hwnd, int lParam);
+
+        public delegate LRESULT HookProc(int code, IntPtr wParam, IntPtr lParam);
 
         #region WINDOWPLACEMENT struct
         public struct WINDOWPLACEMENT
@@ -210,7 +215,10 @@ namespace KKK.WindowAPI
         public static extern bool UnregisterHotKey(HANDLE hWnd, int id);
 
         [DllImport("user32.dll")]
-        public static extern int SetWindowsHookEx(int idHook, Action<int> lpfn, HANDLE hMod, uint dwThreadId);
+        public static extern int SetWindowsHookEx(int hookType, HookProc func, HMODULE hMod, uint dwThreadId);
+
+        [DllImport("user32.dll")]
+        public static extern LRESULT CallNextHookEx(int hhk, int nCode, IntPtr wParam, IntPtr lParam);
 
         [DllImport("user32.dll")]
         public static extern bool UnhookWindowsHookEx(int hhk);
@@ -231,6 +239,9 @@ namespace KKK.WindowAPI
         /// </summary>
         [DllImport("kernel32.dll")]
         public static extern ushort GlobalDeleteAtom(ushort nAtom);
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        private static extern HMODULE GetModuleHandle(string lpModuleName);
     }
     #endregion
 }
