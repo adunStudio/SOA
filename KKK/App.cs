@@ -12,16 +12,16 @@ using KKK.Helper;
 
 namespace KKK
 {
-    class App : Form
+    public class App : Form
     {
         static App Instance = null;
 
-        static Point GetLocation()
+        public static Point GetLocation()
         {
             return Instance.Location;
         }
 
-        static Size GetSize()
+        public static Size GetSize()
         {
             return Instance.ClientSize;
         }
