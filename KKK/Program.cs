@@ -1,20 +1,26 @@
 ﻿using System;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
-using System.Runtime.InteropServices;
-using System.Windows.Forms;
-using Microsoft.Win32.SafeHandles;
+using Microsoft.CodeAnalysis.Scripting;
+using Microsoft.CodeAnalysis.CSharp.Scripting;
 
 
 namespace KKK
 {
     class Program
     {
+        [STAThread]
         static void Main(string[] args)
         {
-            var app = new App();
-            Application.Run(app); 
+            string path = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName, "sample.csx");
+            ScriptOptions option = ScriptOptions.Default.AddImports("System").AddImports("System.IO");
+            CSharpScript.RunAsync(File.ReadAllText(path), option).Wait();
+
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            GC.Collect();
+            
+            //var app = new App();
+            //Application.Run(app); 
         }
     }
 }

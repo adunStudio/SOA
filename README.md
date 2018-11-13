@@ -64,3 +64,8 @@
 
 - HotKeyHelper 클래스
 - 후킹은 좀 더 공부후에 시도.
+
+#### 9. [016] 외부 스크립트 실행
+
+- using Microsoft.CodeAnalysis.Scripting;
+- using Microsoft.CodeAnalysis.CSharp.Scripting;
