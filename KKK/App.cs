@@ -9,10 +9,11 @@ using System.Text;
 using System.Globalization;
 using KKK.WindowAPI;
 using KKK.Helper;
+using KKK.Input;
 
 namespace KKK
 {
-    public class App : Form
+    public sealed class App : Form
     {
         static App Instance = null;
 
@@ -26,7 +27,8 @@ namespace KKK
             return Instance.ClientSize;
         }
 
-  
+        public IKeyboard Keyboard { get; } = new Keyboard();
+
         private bool m_IsMouseDowned = false;
         private Point m_MousePoint;
 
