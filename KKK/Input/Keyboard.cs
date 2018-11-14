@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using KKK.Helper;
 
 namespace KKK.Input
 {
     public sealed class Keyboard : IKeyboard
     {
+        private HotKeyHelper m_HotKeyHelper = new HotKeyHelper();
+
         public void HotKey(Keys keys, Action func)
         {
             AddHotKey(keys, func);
@@ -16,19 +15,12 @@ namespace KKK.Input
 
         public void AddHotKey(Keys keys, Action func)
         {
-
+            m_HotKeyHelper.RegisterHotKey(keys, func);
         }
 
         public void Send(params Keys[] keys)
         {
 
         }
-
     }
-
-    public static class Win32KeybardHelper
-    {
-
-    }
-
 }

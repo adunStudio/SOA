@@ -13,7 +13,6 @@ namespace KKK
         [STAThread]
         static void Main(string[] args)
         {
-
             ScriptOptions option = ScriptOptions.Default;
 
             List<Assembly> assemblys = new List<Assembly>

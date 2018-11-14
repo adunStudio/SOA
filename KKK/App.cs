@@ -34,7 +34,7 @@ namespace KKK
 
         private Win32.WINDOWPLACEMENT targetPlacement;
 
-        private HotKeyHelper m_HotKeyHelper = null;
+        private HotKeyHelper2 m_HotKeyHelper = null;
 
         public App()
         {
@@ -130,7 +130,7 @@ namespace KKK
 
             Invalidate(true);
 
-            m_HotKeyHelper = new HotKeyHelper(handle, (int a) => {
+            m_HotKeyHelper = new HotKeyHelper2(handle, (int a) => {
                 Console.WriteLine("핫키!");
             });
 
