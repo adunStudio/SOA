@@ -7,44 +7,33 @@ using System.IO;
 using System.Timers;
 using System.Text;
 using System.Globalization;
+
+using KKK.Extension;
 using KKK.WindowAPI;
-using KKK.Helper;
 using KKK.Input;
+using KKK.Util;
 
 namespace KKK
 {
     public sealed class App : Form
     {
-        static App Instance = null;
 
-        public static Point GetLocation()
-        {
-            return Instance.Location;
-        }
-
-        public static Size GetSize()
-        {
-            return Instance.ClientSize;
-        }
-
+        #region Inputs
         public IKeyboard Keyboard { get; } = new Keyboard();
+        #endregion
+
+        #region Utils
+        public ICamera Camera { get; } = new Camera();
+        public ICommand Command { get; } = new Command();
+        #endregion
 
         private bool m_IsMouseDowned = false;
         private Point m_MousePoint;
 
         private Win32.WINDOWPLACEMENT targetPlacement;
 
-        private HotKeyHelper2 m_HotKeyHelper = null;
-
         public App()
         {
-            if(Instance == null)
-            {
-                Instance = this;
-            }
-
-            //SetConsoleVisible(false);
-
             targetPlacement.length = 0;
 
             InitializeComponent();
@@ -129,13 +118,6 @@ namespace KKK
 
 
             Invalidate(true);
-
-            m_HotKeyHelper = new HotKeyHelper2(handle, (int a) => {
-                Console.WriteLine("핫키!");
-            });
-
-            m_HotKeyHelper.AddListening(Keys.A, HotKeyModifiers.CONTROL);
-            m_HotKeyHelper.AddListening(Keys.B, HotKeyModifiers.CONTROL);
         }
 
 
@@ -211,35 +193,6 @@ namespace KKK
             }
 
             return true;
-        }
-
-        private void AutoCapture()
-        {
-            System.Timers.Timer timer = new System.Timers.Timer();
-            timer.Interval = 1000;
-
-            timer.Elapsed += (object sender, ElapsedEventArgs e) =>
-                {
-                    Rectangle rect = new Rectangle(
-                        x: Location.X,
-                        y: Location.Y,
-                        width: ClientSize.Width,
-                        height: ClientSize.Height
-                        );
-
-                    using (Image img = ScreenCapture.Capture(rect))
-                    {
-                        img.Save(Path.Combine(Environment.CurrentDirectory, "screenShoot.png"), ImageFormat.Png);
-                    }
-                };
-
-            timer.Start();
-        }
-
-        private void SetConsoleVisible(bool visible)
-        {
-            IntPtr consoleHandle = Win32.GetConsoleWindow();
-            Win32.ShowWindow(consoleHandle, visible ? Win32.SW_SHOW : Win32.SW_HIDE);
         }
     }
 }

@@ -9,13 +9,15 @@ namespace KKK.Helper
     public sealed class HotKeyHelper : IDisposable, IMessageFilter
     {
         // https://docs.microsoft.com/en-us/windows/desktop/inputdev/user-input
-        private const uint BIT_MASK     = 0xFFFF; // 1111 1111 1111 1111
+        // https://docs.microsoft.com/ko-kr/windows/desktop/inputdev/wm-hotkey
+        //                                                 LOW: key            HIGH: MOD_
+        private const uint LOWER_BIT_MASK     = 0xFFFF; // 0000 0000 0000 0000 1111 1111 1111 1111
 
-        private const uint MOD_NONE     = 0x0000; // 0000 0000 0000 0000  
-        private const uint MOD_ALT      = 0x0001; // 0000 0000 0000 0001
-        private const uint MOD_CONTROL  = 0x0002; // 0000 0000 0000 0010
-        private const uint MOD_SHIFT    = 0x0004; // 0000 0000 0000 0100
-        private const uint MOD_WIN      = 0x0008; // 0000 0000 0000 1000
+        private const uint MOD_NONE           = 0x0000; // 0000 0000 0000 0000 0000 0000 0000 0000  
+        private const uint MOD_ALT            = 0x0001; // 0000 0000 0000 0000 0000 0000 0000 0001
+        private const uint MOD_CONTROL        = 0x0002; // 0000 0000 0000 0000 0000 0000 0000 0010
+        private const uint MOD_SHIFT          = 0x0004; // 0000 0000 0000 0000 0000 0000 0000 0100
+        private const uint MOD_WIN            = 0x0008; // 0000 0000 0000 0000 0000 0000 0000 1000
 
 
         private Dictionary<Keys, Action> m_Handlers = new Dictionary<Keys, Action>();
@@ -52,7 +54,7 @@ namespace KKK.Helper
         private void OnHotKey(IntPtr lParam)
         {
             uint modifiers = TranslateModifiers(lParam);
-            long keys = modifiers + (((int)lParam >> 16) & BIT_MASK);
+            long keys = modifiers + (((int)lParam >> 16) & LOWER_BIT_MASK);
 
             Action handler = null;
 
@@ -68,7 +70,7 @@ namespace KKK.Helper
         {
             // & : 비트 AND 연산자를 이용해서 비트의 상태를 알 수 있다. 
             // | : 비트  OR 연산자를 이용해서 비트를 켤 수 있다. 
-            uint inputModifiers  = (uint)lParam & BIT_MASK;
+            uint inputModifiers  = (uint)lParam & LOWER_BIT_MASK;
             uint outputModifiers = 0;
 
             if ((inputModifiers & MOD_ALT) == MOD_ALT)
@@ -114,7 +116,7 @@ namespace KKK.Helper
         public void RegisterHotKey(Keys hotkey, Action handler)
         {
             uint modifiers = TranslateModifiers(hotkey);
-            uint key       = (uint)hotkey & BIT_MASK;
+            uint key       = (uint)hotkey & LOWER_BIT_MASK;
 
             m_Handlers.Add(hotkey, handler);
 

@@ -3,18 +3,16 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
 
-namespace KKK
+namespace KKK.Util
 {
-    class ScreenCapture
+    public sealed class Camera : ICamera
     {
-        public static Image Capture(Rectangle rectangle)
+        public Bitmap Capture()
         {
-            return PrintScreen(rectangle);
-        }
+            // 전체화면
+            Screen screen = Screen.PrimaryScreen;
 
-        private static Bitmap PrintScreen(Rectangle bounds)
-        {
-            /*Rectangle bounds = screen.Bounds;
+            Rectangle bounds = screen.Bounds;
 
             // 디스플레이 범위 / 작업영역
             // 작업 영역은 작업 표시줄, 도킹된 창 및 도킹된 도구 모음을 제외한 디스플레이의 데스크톱 영역 
@@ -27,9 +25,17 @@ namespace KKK
                     width: screen.Bounds.Width + screen.WorkingArea.X,
                     height: screen.Bounds.Height + screen.WorkingArea.Y
                     );
-            }*/
+            }
 
+            return PrintScreen(bounds);
+        }
+
+        private Bitmap PrintScreen(Rectangle bounds)
+        {
+            // 1. 화면 픽셀포맷
             PixelFormat pixelFormat = new Bitmap(1, 1, Graphics.FromHwnd(IntPtr.Zero)).PixelFormat;
+            
+            // 2. 화면 크기만큼 비트맵 생성
             Bitmap bitmap = new Bitmap(bounds.Width, bounds.Height, pixelFormat);
 
             // System.Drawing.Graphics FromImage
@@ -38,7 +44,7 @@ namespace KKK
             using (Graphics graphics = Graphics.FromImage(bitmap))
             {
                 graphics.CopyFromScreen(
-                    sourceX: bounds.X, 
+                    sourceX: bounds.X,
                     sourceY: bounds.Y,
                     destinationX: 0,
                     destinationY: 0,

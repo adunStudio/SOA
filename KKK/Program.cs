@@ -29,7 +29,10 @@ namespace KKK
                 "System.IO",
                 "System.Collections.Generic",
                 "System.Windows.Forms",
-                "KKK"
+                "System.Drawing",
+                "System.Drawing.Imaging",
+                "KKK",
+                "KKK.Extension"
             };
 
             foreach (Assembly assemble in assemblys)

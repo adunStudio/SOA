@@ -79,3 +79,21 @@ Keyboard.HotKey(Keys.A | Keys.Alt,     () => { Console.WriteLine("a + alt"); });
 ```
 
 - PInvoke.* 라이브러리 적용
+
+#### 11. [020] Camera, Command
+
+```
+// 캡처, 저장
+Keyboard.HotKey(Keys.A | Keys.Control, () => { Console.WriteLine("ctrl + a");
+    Camera.Capture().Save();
+    // save() -> 현재 날짜 파일명으로 저장
+});
+
+// 콘솔창 토글
+Keyboard.HotKey(Keys.A | Keys.Alt,     () => { Console.WriteLine("alt + a");
+    Command.visible = !Command.visible;
+});
+```
+
+- 캡쳐 기능
+- 콘솔창 on/off
