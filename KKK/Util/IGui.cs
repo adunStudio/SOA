@@ -1,45 +1,16 @@
 ﻿using System;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Windows.Forms;
-using System.Runtime.InteropServices;
-using System.IO;
-using System.Timers;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
-using System.Globalization;
+using System.Threading.Tasks;
 
-using KKK.Extension;
-using KKK.WindowAPI;
-using KKK.Input;
-using KKK.Util;
-
-namespace KKK
+namespace KKK.Util
 {
-    public sealed class App : Form
+    class IGui
     {
+        //private Win32.WINDOWPLACEMENT targetPlacement;
 
-        #region Inputs
-        public IKeyboard Keyboard { get; } = new Keyboard();
-        #endregion
-
-        #region Utils
-        public ICamera Camera { get; } = new Camera();
-        public ICommand Command { get; } = new Command();
-        #endregion
-
-        private bool m_IsMouseDowned = false;
-        private Point m_MousePoint;
-
-        private Win32.WINDOWPLACEMENT targetPlacement;
-
-        public App()
-        {
-            targetPlacement.length = 0;
-
-            InitializeComponent();
-        }
-
-        protected override void WndProc(ref Message m)
+        /*protected override void WndProc(ref Message m)
         {
             base.WndProc(ref m);
         }
@@ -48,13 +19,13 @@ namespace KKK
         {
             this.SuspendLayout();
 
-            this.Text = "KakaoKungKuotta";
-            this.Name = "KakaoKungKuotta";
+            this.Text = "KKK";
+            this.Name = "KKK";
             this.StartPosition = FormStartPosition.Manual;
             this.Location = new Point(0, 0);
-            this.ClientSize = new Size(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+            this.ClientSize = new Size(100, 100);
             this.FormBorderStyle = FormBorderStyle.None;
-            this.BackColor = Color.Black;
+            this.BackColor = Color.White;
             this.TransparencyKey = Color.Black;
             this.TopMost = true;
 
@@ -63,14 +34,14 @@ namespace KKK
             this.MouseUp += new MouseEventHandler(this.OnMouseUp);
             this.MouseMove += new MouseEventHandler(this.OnMouseMove);
 
-            this.ResumeLayout(false);   
+            this.ResumeLayout(false);
         }
 
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
 
-            if(targetPlacement.length != 0)
+            if (targetPlacement.length != 0)
             {
                 Size size = new Size(targetPlacement.rcNormalPosition.Right - (targetPlacement.rcNormalPosition.Left * 2), targetPlacement.rcNormalPosition.Bottom - (targetPlacement.rcNormalPosition.Top * 2));
                 Point point = new Point(targetPlacement.rcNormalPosition.Left, targetPlacement.rcNormalPosition.Top);
@@ -91,6 +62,8 @@ namespace KKK
             m_IsMouseDowned = true;
             m_MousePoint.X = -e.X;
             m_MousePoint.Y = -e.Y;
+
+            Console.WriteLine("mouseDown");
         }
 
         private void OnMouseUp(object sender, MouseEventArgs e)
@@ -100,7 +73,7 @@ namespace KKK
 
         private void OnMouseMove(object sender, MouseEventArgs e)
         {
-            if(m_IsMouseDowned)
+            if (m_IsMouseDowned)
             {
                 this.Location = new Point(
                     x: Location.X + m_MousePoint.X + e.X,
@@ -111,10 +84,10 @@ namespace KKK
         private void Run()
         {
             //AutoCapture();
-          //  PrintWindow();
-//
+            //  PrintWindow();
+
             IntPtr handle = FindWindow("Adunis_Console");
-           // targetPlacement = GetWindowPlacement(handle);
+            // targetPlacement = GetWindowPlacement(handle);
 
 
             Invalidate(true);
@@ -126,7 +99,7 @@ namespace KKK
             Win32.WINDOWPLACEMENT placement = new Win32.WINDOWPLACEMENT();
             placement.length = Marshal.SizeOf(placement);
 
-            if(Win32.GetWindowPlacement(handle, ref placement) == false)
+            if (Win32.GetWindowPlacement(handle, ref placement) == false)
             {
                 placement.length = 0;
             }
@@ -138,7 +111,7 @@ namespace KKK
         {
             IntPtr handle = Win32.FindWindow(null, name);
 
-            if(handle != (IntPtr)0)
+            if (handle != (IntPtr)0)
             {
                 return handle;
             }
@@ -153,7 +126,7 @@ namespace KKK
         }
 
         private bool EnumWindowsProc(IntPtr hWnd, int lParam)
-        {            
+        {
             uint style = (uint)Win32.GetWindowLong(hWnd, Win32.GWL_STYLE);
 
             if ((style & Win32.WS_VISIBLE) == Win32.WS_VISIBLE && (style & Win32.WS_CAPTION) == Win32.WS_CAPTION)
@@ -189,10 +162,11 @@ namespace KKK
 
                     Console.Write(sb.ToString());
                      */
-                }
-            }
+        /*  }
+      }
 
-            return true;
-        }
+      return true;
+  }
+}*/
     }
 }

@@ -20,7 +20,7 @@ namespace KKK
                 typeof(object).GetTypeInfo().Assembly,
                 typeof(System.Linq.Enumerable).GetTypeInfo().Assembly,
                 typeof(System.Windows.Forms.Application).GetTypeInfo().Assembly,
-                typeof(KKK.App).GetTypeInfo().Assembly
+                typeof(KKK.KKKApp).GetTypeInfo().Assembly
             };
 
             List<string> namespaces = new List<string>
@@ -47,15 +47,25 @@ namespace KKK
 
             string path = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName, "sample.csx");
 
-            var app = new App();
+            var app = new KKKApp();
 
+            /*Keys[] m_keys = { Keys.A, Keys.B, Keys.Control };
+            Console.WriteLine(string.Join("+", m_keys));
+
+            string p = "A";
+
+            Console.WriteLine(Enum.Parse(typeof(Keys), p));
+            */
             CSharpScript.RunAsync(File.ReadAllText(path), option, app).Wait();
 
-            Application.Run(app);
+            Application.Run();
 
             GC.Collect();
             GC.WaitForPendingFinalizers();
             GC.Collect();
+
+            while(true)
+            { }
         }
     }
 }

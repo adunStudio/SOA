@@ -10,11 +10,6 @@ namespace KKK.Input
 
         public void HotKey(Keys keys, Action func)
         {
-            AddHotKey(keys, func);
-        }
-
-        public void AddHotKey(Keys keys, Action func)
-        {
             m_HotKeyHelper.RegisterHotKey(keys, func);
         }
 

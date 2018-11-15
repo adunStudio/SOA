@@ -212,19 +212,25 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Extension\KeysExtension.cs" />
+    <Compile Include="Input\Combo.cs" />
+    <Compile Include="Input\Interface\IKeyboardEvents.cs" />
+    <Compile Include="Input\Interface\IKeyboardMouseEvents.cs" />
+    <Compile Include="Input\Interface\IMouseEvents.cs" />
+    <Compile Include="Input\Internal\KeySequence.cs" />
+    <Compile Include="KKKApp.cs" />
     <Compile Include="Extension\ImageExtension.cs" />
     <Compile Include="Helper\HotKeyHelper.cs" />
     <Compile Include="Input\Command.cs" />
-    <Compile Include="Input\ICommand.cs" />
-    <Compile Include="Input\IKeyboard.cs" />
+    <Compile Include="Input\Interface\ICommand.cs" />
+    <Compile Include="Input\Interface\IKeyboard.cs" />
     <Compile Include="Input\Keyboard.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\Camera.cs" />
     <Compile Include="Util\ICamera.cs" />
+    <Compile Include="Util\IGui.cs" />
+    <Compile Include="Util\SequenceBase.cs" />
     <Compile Include="Win32.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -235,8 +241,8 @@
     <None Include="bin\sample.csx" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="App.resx">
-      <DependentUpon>App.cs</DependentUpon>
+    <EmbeddedResource Include="KKKApp.resx">
+      <DependentUpon>KKKApp.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
