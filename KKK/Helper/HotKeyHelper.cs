@@ -6,7 +6,7 @@ using static PInvoke.User32;
 
 namespace KKK.Helper
 {
-    public sealed class HotKeyHelper : IDisposable, IMessageFilter
+    public sealed class HotKeyHelper : Singleton<HotKeyHelper>, IDisposable, IMessageFilter 
     {
         // https://docs.microsoft.com/en-us/windows/desktop/inputdev/user-input
         // https://docs.microsoft.com/ko-kr/windows/desktop/inputdev/wm-hotkey
@@ -18,7 +18,6 @@ namespace KKK.Helper
         private const uint MOD_CONTROL        = 0x0002; // 0000 0000 0000 0000 0000 0000 0000 0010
         private const uint MOD_SHIFT          = 0x0004; // 0000 0000 0000 0000 0000 0000 0000 0100
         private const uint MOD_WIN            = 0x0008; // 0000 0000 0000 0000 0000 0000 0000 1000
-
 
         private Dictionary<Keys, Action> m_Handlers = new Dictionary<Keys, Action>();
 
@@ -58,12 +57,12 @@ namespace KKK.Helper
 
             Action handler = null;
 
-            if (!m_Handlers.TryGetValue((Keys)keys, out handler))
+            if (m_Handlers.TryGetValue((Keys)keys, out handler) == false)
             {
                 return;
             }
 
-            handler();
+            handler?.Invoke();
         }
 
         private uint TranslateModifiers(IntPtr lParam)

@@ -45,27 +45,13 @@ namespace KKK
                 option = option.AddImports(name);
             }
 
-            string path = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName, "sample.csx");
-
+            //string path = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName, "sample.csx");
+            string path = "C:/Users/adunstudio/Desktop/kakaoKungKuotta/KKK/sample.csx";
             var app = new KKKApp();
 
-            /*Keys[] m_keys = { Keys.A, Keys.B, Keys.Control };
-            Console.WriteLine(string.Join("+", m_keys));
-
-            string p = "A";
-
-            Console.WriteLine(Enum.Parse(typeof(Keys), p));
-            */
             CSharpScript.RunAsync(File.ReadAllText(path), option, app).Wait();
 
-            Application.Run();
-
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-            GC.Collect();
-
-            while(true)
-            { }
+            app.Run();
         }
     }
 }

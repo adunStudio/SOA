@@ -3,10 +3,17 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
 
+using KKK.Interface;
+
 namespace KKK.Util
 {
     public sealed class Camera : ICamera
     {
+        public void Init()
+        {
+
+        }
+
         public Bitmap Capture()
         {
             // 전체화면

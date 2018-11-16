@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KKK.Util
+namespace KKK.Interface
 {
     class IGui
     {

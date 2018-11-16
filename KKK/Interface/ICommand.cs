@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace KKK.Input
+namespace KKK.Interface
 {
-    public interface ICommand
+    public interface ICommand : IInit
     {
         bool visible
         {

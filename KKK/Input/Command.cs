@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+using KKK.Interface;
+
 using static PInvoke.User32;
 using static PInvoke.Kernel32;
 
@@ -10,12 +9,17 @@ namespace KKK.Input
 {
     public sealed class Command : ICommand
     {
-        private bool m_visible = true;
+        private bool m_visible = false;
 
         public bool visible
         {
             get { return m_visible; }
             set { SetVisible(value); }
+        }
+
+        public void Init()
+        {
+            SetVisible(true);
         }
 
         public void SetVisible(bool visible)

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KKK.Input
+namespace KKK.Helper
 {
-    interface IKeyboardMouseEvents
+    public sealed class InputHelper : Singleton<InputHelper>
     {
 
     }

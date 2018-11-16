@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Drawing;
 
-namespace KKK.Util
+namespace KKK.Interface
 {
-    public interface ICamera
+    public interface ICamera : IInit
     {
         Bitmap Capture();
     }

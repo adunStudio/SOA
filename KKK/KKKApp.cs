@@ -8,8 +8,10 @@ using System.Timers;
 using System.Text;
 using System.Globalization;
 
+using KKK.Interface;
 using KKK.Extension;
 using KKK.WindowAPI;
+using KKK.Helper;
 using KKK.Input;
 using KKK.Util;
 
@@ -18,7 +20,9 @@ namespace KKK
     public sealed class KKKApp
     {
         #region Inputs
+        public InputHelper Input { get; } = InputHelper.instance;
         public IKeyboard Keyboard { get; } = new Keyboard();
+        public IMouse Mouse { get; } = new Mouse();
         #endregion
 
         #region Utils
@@ -29,6 +33,18 @@ namespace KKK
 
         public KKKApp()
         {
+           
+        }
+
+        public void Run()
+        {
+            Keyboard.Init();
+            Mouse.Init();
+
+            Camera.Init();
+            Command.Init();
+
+            Application.Run();
         }
     }
 
