@@ -30,10 +30,6 @@ namespace KKK.Helper
         private WindowsHookDelegate m_AppHookProc;
         private WindowsHookDelegate m_GlobalHookProc;
 
-        const uint KEY_DOWN_MASK   = 0x40000000; // for bit 30
-        const uint KEY_UP_MASK     = 0x80000000; // for bit 31
-        const uint KEY_EXTEND_MASK = 0x1000000;  // for bit 24
-
         public HookHelper()
         {
 

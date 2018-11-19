@@ -216,6 +216,8 @@
     <Compile Include="Helper\HookHelper.cs" />
     <Compile Include="Helper\InputHelper.cs" />
     <Compile Include="Helper\Singleton.cs" />
+    <Compile Include="Input\KeyEventInformation.cs" />
+    <Compile Include="Input\MouseEventInformation.cs" />
     <Compile Include="Interface\IInit.cs" />
     <Compile Include="Interface\IMouse.cs" />
     <Compile Include="Input\Mouse.cs" />

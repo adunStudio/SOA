@@ -11,7 +11,6 @@ namespace KKK.Input
     public sealed class Keyboard : IKeyboard
     {
         public event KeyboardEvent OnKeyDown = null;
-        public event KeyboardEvent OnKeyPress = null;
         public event KeyboardEvent OnKeyUp = null;
 
         public void Init()
@@ -36,18 +35,21 @@ namespace KKK.Input
 
         private void HookKeyboardCallback(HookData hookData)
         {
+            KeyEventInformation info = KeyEventInformation.Get(hookData);
 
-            WindowMessage state = (WindowMessage)hookData.wParam;
+            Keys key = info.KeyCode | 
+                (info.Control ? Keys.Control : Keys.None) |
+                (info.Shift ? Keys.Shift : Keys.None) |
+                (info.Alt ? Keys.Alt : Keys.None);
 
-            KEYBDINPUT keyboardStruct = Marshal.PtrToStructure<KEYBDINPUT>(hookData.lParam);
-            Keys key = (Keys)keyboardStruct.wVk;
-
-            switch (state)
+            if (info.IsKeyDown)
             {
-                case WindowMessage.WM_KEYDOWN:
-                    OnKeyDown?.Invoke(key); break;
-                case WindowMessage.WM_KEYUP:
-                    OnKeyUp?.Invoke(key); break;
+                OnKeyDown?.Invoke(key);
+            }
+
+            if (info.IsKeyUp)
+            {
+                OnKeyUp?.Invoke(key);
             }
         }
     }

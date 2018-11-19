@@ -8,7 +8,6 @@ namespace KKK.Interface
     public interface IKeyboard : IInit
     {
         event KeyboardEvent OnKeyDown;
-        event KeyboardEvent OnKeyPress;
         event KeyboardEvent OnKeyUp;
 
         void HotKey(Keys keys, Action func);

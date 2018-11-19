@@ -23,19 +23,16 @@ Keyboard.OnKeyDown += (key) =>
 {
     switch (key)
     {
-        case Keys.B: Console.WriteLine("B가 눌렸다."); break;
+        case Keys.B | Keys.Control: Console.WriteLine("Ctrl + B가 눌렸다."); break;
         case Keys.C: Console.WriteLine("C가 눌렸다."); break;
     }
 };
 
+
 // 2.2 키를 땔 때
 Keyboard.OnKeyUp += (key) => {
     Console.WriteLine(key);
-    /*switch (key)
-    {
-        case Keys.E: Console.WriteLine("E가 때졌다."); break;
-        case Keys.F: Console.WriteLine("F가 때졌다."); break;
-    }*/
+    
 };
 
 // 3. 테스트 함수

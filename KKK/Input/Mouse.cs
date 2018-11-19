@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.Drawing;
+using System.Windows.Forms;
 
 using KKK.Interface;
 using KKK.Helper;
@@ -18,13 +20,23 @@ namespace KKK.Input
         public event MouseEvent OnMouseDragStart = null;
         public event MouseEvent OnMouseDragEnd = null;
 
+        private int m_SystemDoubleClickTime;
+
+        private MouseButtons m_PreviousClicked;
+        private Point m_PreviousClickedLocation;
+        private int m_PreviousClickedTime;
+
         public void Init()
         {
+            m_SystemDoubleClickTime = GetDoubleClickTime();
             HookHelper.instance.HookGlobalMouse(HookMouseCallback);
         }
 
         private void HookMouseCallback(HookData hookData)
         {
+            //MouseEventInformation info = MouseEventInformation.Get(hookData);
+
+   
             WindowMessage state = (WindowMessage)hookData.wParam;
 
             MOUSEINPUT mouseStruct = Marshal.PtrToStructure<MOUSEINPUT>(hookData.lParam);
@@ -43,5 +55,15 @@ namespace KKK.Input
                     OnMouseDown?.Invoke(x, y); break;
             }
         }
+
+        private bool IsDoubleClick(MouseEventInformation info)
+        {
+            return info.Button == m_PreviousClicked &&
+                info.Location == m_PreviousClickedLocation &&
+                info.Timestamp - m_PreviousClickedTime <= m_SystemDoubleClickTime;
+        }
+
+        [DllImport("user32")]
+        private static extern int GetDoubleClickTime();
     }
 }
