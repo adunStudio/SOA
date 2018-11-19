@@ -98,7 +98,7 @@ Keyboard.HotKey(Keys.A | Keys.Alt,     () => { Console.WriteLine("alt + a");
 - 캡쳐 기능
 - 콘솔창 on/off
 
-#### 12. [021], [022] 훅 헬퍼, 싱글톤
+#### 12. [021], [022] 훅 헬퍼, 싱글톤, 키보드 후킹
 
 - HookHelper.cs
 - 조금 더 수정해야 한다. 마우스 후킹 개발할 때 수정 예정
@@ -146,5 +146,15 @@ private void Test()
 }
 ```
 
+#### 13. [023] 마우스 후킹
 
+- IMouse, Mouse
+
+```c#
+// 4. 마우스 전역 훅 : (다른 프로세스에서 마우스 입력을 해도 실행된다.)
+Mouse.OnMouseDown += (x, y) =>
+{
+    Console.WriteLine(string.Format("click (x: {0}, y: {1})", x, y));
+}
+```
 

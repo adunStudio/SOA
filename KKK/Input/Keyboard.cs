@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 using KKK.Interface;
 using KKK.Helper;
+using static PInvoke.User32;
 
 namespace KKK.Input
 {
@@ -14,7 +16,7 @@ namespace KKK.Input
 
         public void Init()
         {
-            HookKeyboard();
+            HookHelper.instance.HookGlobalKeyboard(HookKeyboardCallback);
         }
 
         public void HotKey(Keys keys, Action func)
@@ -32,18 +34,20 @@ namespace KKK.Input
 
         }
 
-        private void HookKeyboard()
+        private void HookKeyboardCallback(HookData hookData)
         {
-            HookHelper.instance.HookGlobalKeyboard(HookKeyboardCallback);
-        }
 
-        private void HookKeyboardCallback(HookState state, Keys key)
-        {
-            switch(state)
+            WindowMessage state = (WindowMessage)hookData.wParam;
+
+            KEYBDINPUT keyboardStruct = Marshal.PtrToStructure<KEYBDINPUT>(hookData.lParam);
+            Keys key = (Keys)keyboardStruct.wVk;
+
+            switch (state)
             {
-                case HookState.Down: OnKeyDown?.Invoke(key); break;
-                case HookState.Press: OnKeyPress?.Invoke(key); break;
-                case HookState.Up: OnKeyUp?.Invoke(key); break;
+                case WindowMessage.WM_KEYDOWN:
+                    OnKeyDown?.Invoke(key); break;
+                case WindowMessage.WM_KEYUP:
+                    OnKeyUp?.Invoke(key); break;
             }
         }
     }

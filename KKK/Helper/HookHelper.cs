@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Windows.Forms;
-using System.Runtime.InteropServices;
 
 using static PInvoke.User32;
 using static PInvoke.Kernel32;
-using KKK.WindowAPI;
+
 namespace KKK.Helper
 {
     public enum HookState
@@ -25,7 +23,7 @@ namespace KKK.Helper
         public IntPtr lParam;
     }
 
-    public delegate void HookCallback(HookState state, Keys key);
+    public delegate void HookCallback(HookData hookData);
 
     public sealed class HookHelper : Singleton<HookHelper>, IDisposable
     {
@@ -87,18 +85,11 @@ namespace KKK.Helper
                 return CallNextHookEx(IntPtr.Zero, nCode, wParam, lParam);
             }
 
-            WindowMessage state = (WindowMessage)wParam;
-            KEYBDINPUT keyboardStruct;
+            HookData hookData;
+            hookData.wParam = wParam;
+            hookData.lParam = lParam;
 
-            switch (state)
-            {
-                case WindowMessage.WM_KEYDOWN:
-                    keyboardStruct = Marshal.PtrToStructure<KEYBDINPUT>(lParam);
-                    callback(HookState.Down, (Keys)keyboardStruct.wVk); break;
-                case WindowMessage.WM_KEYUP:
-                    keyboardStruct = Marshal.PtrToStructure<KEYBDINPUT>(lParam);
-                    callback(HookState.Up, (Keys)keyboardStruct.wVk); break;
-            }
+            callback(hookData);
 
             return CallNextHookEx(IntPtr.Zero, nCode, wParam, lParam);
         }
