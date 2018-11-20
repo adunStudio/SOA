@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace KKK.Interface
+namespace SOA.Interface
 {
     public delegate void KeyboardEvent(Keys key);
 

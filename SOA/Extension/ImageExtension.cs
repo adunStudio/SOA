@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 
-namespace KKK.Extension
+namespace SOA.Extension
 {
     public static class ImageExtension
     {

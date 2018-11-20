@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KKK.Helper
+namespace SOA.Helper
 {
     public sealed class InputHelper : Singleton<InputHelper>
     {

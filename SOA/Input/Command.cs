@@ -1,11 +1,11 @@
 ﻿using System;
 
-using KKK.Interface;
+using SOA.Interface;
 
 using static PInvoke.User32;
 using static PInvoke.Kernel32;
 
-namespace KKK.Input
+namespace SOA.Input
 {
     public sealed class Command : ICommand
     {

@@ -2,7 +2,7 @@
 using System.Text;
 using System.Runtime.InteropServices;
 
-namespace KKK.WindowAPI
+namespace SOA.WindowAPI
 {
     using HANDLE = IntPtr;
     using HINSTANCE = IntPtr;

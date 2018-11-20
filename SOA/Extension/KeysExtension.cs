@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace KKK.Extension
+namespace SOA.Extension
 {
     public static class KeysExtension
     {

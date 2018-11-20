@@ -4,7 +4,7 @@ using System.Diagnostics;
 using static PInvoke.User32;
 using static PInvoke.Kernel32;
 
-namespace KKK.Helper
+namespace SOA.Helper
 {
     public enum HookState
     {

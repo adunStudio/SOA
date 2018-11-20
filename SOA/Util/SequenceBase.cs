@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KKK.Util
+namespace SOA.Util
 {
     public abstract class SequenceBase<T> : IEnumerable<T>
     {

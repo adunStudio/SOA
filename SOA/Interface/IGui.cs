@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KKK.Interface
+namespace SOA.Interface
 {
     class IGui
     {
@@ -19,8 +19,8 @@ namespace KKK.Interface
         {
             this.SuspendLayout();
 
-            this.Text = "KKK";
-            this.Name = "KKK";
+            this.Text = "SOA";
+            this.Name = "SOA";
             this.StartPosition = FormStartPosition.Manual;
             this.Location = new Point(0, 0);
             this.ClientSize = new Size(100, 100);

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using static PInvoke.User32;
 
-namespace KKK.Helper
+namespace SOA.Helper
 {
     public sealed class HotKeyHelper : Singleton<HotKeyHelper>, IDisposable, IMessageFilter 
     {

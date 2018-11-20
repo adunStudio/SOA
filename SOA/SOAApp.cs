@@ -8,16 +8,16 @@ using System.Timers;
 using System.Text;
 using System.Globalization;
 
-using KKK.Interface;
-using KKK.Extension;
-using KKK.WindowAPI;
-using KKK.Helper;
-using KKK.Input;
-using KKK.Util;
+using SOA.Interface;
+using SOA.Extension;
+using SOA.WindowAPI;
+using SOA.Helper;
+using SOA.Input;
+using SOA.Util;
 
-namespace KKK
+namespace SOA
 {
-    public sealed class KKKApp
+    public sealed class SOAApp
     {
         #region Inputs
         public InputHelper Input { get; } = InputHelper.instance;
@@ -31,7 +31,7 @@ namespace KKK
         #endregion
 
 
-        public KKKApp()
+        public SOAApp()
         {
            
         }

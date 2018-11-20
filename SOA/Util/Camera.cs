@@ -3,9 +3,9 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
 
-using KKK.Interface;
+using SOA.Interface;
 
-namespace KKK.Util
+namespace SOA.Util
 {
     public sealed class Camera : ICamera
     {

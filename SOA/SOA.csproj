@@ -7,8 +7,8 @@
     <ProjectGuid>{BDDDD940-8101-4930-8592-7B6E696DC85B}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>KKK</RootNamespace>
-    <AssemblyName>KKK</AssemblyName>
+    <RootNamespace>SOA</RootNamespace>
+    <AssemblyName>SOA</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -221,7 +221,7 @@
     <Compile Include="Interface\IInit.cs" />
     <Compile Include="Interface\IMouse.cs" />
     <Compile Include="Input\Mouse.cs" />
-    <Compile Include="KKKApp.cs" />
+    <Compile Include="SOAApp.cs" />
     <Compile Include="Extension\ImageExtension.cs" />
     <Compile Include="Helper\HotKeyHelper.cs" />
     <Compile Include="Input\Command.cs" />
@@ -244,8 +244,8 @@
     <None Include="bin\sample.csx" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="KKKApp.resx">
-      <DependentUpon>KKKApp.cs</DependentUpon>
+    <EmbeddedResource Include="SOAApp.resx">
+      <DependentUpon>SOAApp.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

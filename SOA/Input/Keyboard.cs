@@ -2,11 +2,11 @@
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-using KKK.Interface;
-using KKK.Helper;
+using SOA.Interface;
+using SOA.Helper;
 using static PInvoke.User32;
 
-namespace KKK.Input
+namespace SOA.Input
 {
     public sealed class Keyboard : IKeyboard
     {

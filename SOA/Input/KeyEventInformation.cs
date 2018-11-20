@@ -1,10 +1,10 @@
 ﻿using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-using KKK.Helper;
+using SOA.Helper;
 using static PInvoke.User32;
 
-namespace KKK.Input
+namespace SOA.Input
 {
     public class KeyEventInformation : KeyEventArgs
     {

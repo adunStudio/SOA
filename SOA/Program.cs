@@ -6,7 +6,7 @@ using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using System.Windows.Forms;
 
-namespace KKK
+namespace SOA
 {
     class Program
     {
@@ -20,7 +20,7 @@ namespace KKK
                 typeof(object).GetTypeInfo().Assembly,
                 typeof(System.Linq.Enumerable).GetTypeInfo().Assembly,
                 typeof(System.Windows.Forms.Application).GetTypeInfo().Assembly,
-                typeof(KKK.KKKApp).GetTypeInfo().Assembly
+                typeof(SOA.SOAApp).GetTypeInfo().Assembly
             };
 
             List<string> namespaces = new List<string>
@@ -31,8 +31,8 @@ namespace KKK
                 "System.Windows.Forms",
                 "System.Drawing",
                 "System.Drawing.Imaging",
-                "KKK",
-                "KKK.Extension"
+                "SOA",
+                "SOA.Extension"
             };
 
             foreach (Assembly assemble in assemblys)
@@ -46,9 +46,10 @@ namespace KKK
             }
 
             //string path = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName, "sample.csx");
-            string path = "C:/Users/adunstudio/Desktop/kakaoKungKuotta/KKK/sample.csx";
-            var app = new KKKApp();
+            string path = "C:/Users/adunstudio/Desktop/Spear_of_Adun/SOA/sample.csx";
+            var app = new SOAApp();
 
+            Console.WriteLine("Program Start...");
             CSharpScript.RunAsync(File.ReadAllText(path), option, app).Wait();
 
             app.Run();

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KKK.Interface
+namespace SOA.Interface
 {
     public delegate void MouseEvent(int x, int y);
 

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KKK.Interface
+namespace SOA.Interface
 {
     public interface ICommand : IInit
     {

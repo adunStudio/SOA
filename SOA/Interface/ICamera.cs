@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace KKK.Interface
+namespace SOA.Interface
 {
     public interface ICamera : IInit
     {
