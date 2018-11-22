@@ -214,7 +214,6 @@
   <ItemGroup>
     <Compile Include="Extension\KeysExtension.cs" />
     <Compile Include="Helper\HookHelper.cs" />
-    <Compile Include="Helper\InputHelper.cs" />
     <Compile Include="Helper\Singleton.cs" />
     <Compile Include="Input\KeyEventInformation.cs" />
     <Compile Include="Input\MouseEventInformation.cs" />

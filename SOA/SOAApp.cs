@@ -20,7 +20,6 @@ namespace SOA
     public sealed class SOAApp
     {
         #region Inputs
-        public InputHelper Input { get; } = InputHelper.instance;
         public IKeyboard Keyboard { get; } = new Keyboard();
         public IMouse Mouse { get; } = new Mouse();
         #endregion
