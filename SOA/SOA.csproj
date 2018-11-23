@@ -214,12 +214,14 @@
   <ItemGroup>
     <Compile Include="Extension\KeysExtension.cs" />
     <Compile Include="Helper\HookHelper.cs" />
+    <Compile Include="Helper\SendHelper.cs" />
     <Compile Include="Helper\Singleton.cs" />
     <Compile Include="Input\KeyEventInformation.cs" />
     <Compile Include="Input\MouseEventInformation.cs" />
     <Compile Include="Interface\IInit.cs" />
     <Compile Include="Interface\IMouse.cs" />
     <Compile Include="Input\Mouse.cs" />
+    <Compile Include="Interface\IProgram.cs" />
     <Compile Include="SOAApp.cs" />
     <Compile Include="Extension\ImageExtension.cs" />
     <Compile Include="Helper\HotKeyHelper.cs" />
@@ -227,11 +229,12 @@
     <Compile Include="Interface\ICommand.cs" />
     <Compile Include="Interface\IKeyboard.cs" />
     <Compile Include="Input\Keyboard.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="StartMain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\Camera.cs" />
     <Compile Include="Interface\ICamera.cs" />
     <Compile Include="Interface\IGui.cs" />
+    <Compile Include="Util\Program.cs" />
     <Compile Include="Util\SequenceBase.cs" />
     <Compile Include="Win32.cs" />
   </ItemGroup>

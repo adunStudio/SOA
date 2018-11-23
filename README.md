@@ -137,3 +137,11 @@ Mouse.OnMouseDown += (x, y) =>
 }
 ```
 
+#### 14. [028] 프로그램 종료
+
+- IProgram, Program, SendHelper
+
+```c#
+// Zulip이라는 프로그램 종료.
+Program.Close("Zulip");
+```

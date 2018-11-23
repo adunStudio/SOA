@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace SOA
 {
-    class Program
+    class StartMain
     {
         [STAThread]
         static void Main(string[] args)
