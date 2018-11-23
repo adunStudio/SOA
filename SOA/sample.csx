@@ -25,8 +25,13 @@ Keyboard.OnKeyDown += (key) =>
     {
         case Keys.B | Keys.Control: Console.WriteLine("Ctrl + B가 눌렸다."); break;
         case Keys.C: Console.WriteLine("C가 눌렸다."); break;
-        // 5. 쥴립 프로그램 종료 
-        case Keys.Z: Program.Close("Zulip"); break;
+        // 쥴립 프로그램 종료
+        case Keys.Z: Program.Exit("Zulip"); break;
+        // 브라우저 실행
+        case Keys.J: Program.Start(@"http://www.google.com"); break;
+        // 쥴립 프로그램
+        case Keys.S: Program.Show("Zulip"); break;
+        case Keys.H: Program.Hide("Zulip"); break;
     }
 };
 

@@ -4,6 +4,7 @@ using System.Diagnostics;
 
 using SOA.Interface;
 using SOA.Helper;
+using static PInvoke.User32;
 
 namespace SOA.Util
 {
@@ -14,9 +15,68 @@ namespace SOA.Util
 
         }
 
-        public void Close(string processName)
+
+        public void Show(string processName)
         {
-            Console.WriteLine(1);
+            ShowOrHide(processName, isShow: true);
+        }
+
+        public void Hide(string processName)
+        {
+            ShowOrHide(processName, isShow: false);
+        }
+
+        private void ShowOrHide(string processName, bool isShow)
+        {
+
+            Process[] processes = Process.GetProcessesByName(processName);
+        
+            if (processes.Length == 0)
+            {
+                Console.WriteLine(string.Format("{0}은 현재 실행중인 프로그램이 아닙니다.", processName));
+                return;
+            }
+
+          
+
+
+            foreach(var process in processes)
+            {
+                if(process.MainWindowHandle != IntPtr.Zero)
+                {
+                    if (isShow)
+                    {
+                        if (SetForegroundWindow(processes[0].MainWindowHandle))
+                        {
+                            Console.WriteLine("success");
+                        }
+                        else
+                        {
+                            Console.WriteLine("fail");
+                        }
+                    }
+                    else
+                    {
+                        ShowWindow(processes[0].MainWindowHandle, WindowShowStyle.SW_SHOWMINIMIZED);
+                    }
+
+                    break;
+                }
+            }
+          
+
+
+
+
+        }
+
+        public void Start(string processName)
+        {
+            Process.Start(processName);
+        }
+
+        public void Exit(string processName)
+        {
             Process[] processes = Process.GetProcessesByName(processName);
 
             if(processes.Length == 0)
@@ -29,7 +89,7 @@ namespace SOA.Util
             {
                 try
                 {
-                    CloseWindow(process);
+                    ExitProcess(process);
                 }
                 catch(Exception e)
                 {
@@ -39,7 +99,7 @@ namespace SOA.Util
             }
         }
 
-        private void CloseWindow(Process process)
+        private void ExitProcess(Process process)
         {
             Debug.WriteLine(process.ProcessName);
             foreach (ProcessThread thread in process.Threads)
