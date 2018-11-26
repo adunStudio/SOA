@@ -10,9 +10,9 @@ namespace SOA.Input
     {
         public int ScanCode { get; }
         public int Timestamp { get; }
-        public bool IsDown { get; }
-        public bool IsUp { get; }
-        public bool IsExtended { get; }
+        public bool IsKeyDown { get; }
+        public bool IsKeyUp { get; }
+        public bool IsKeyExtended { get; }
 
         public static KeyEventInformation Get(HookData hookData)
         {
@@ -30,20 +30,20 @@ namespace SOA.Input
             // If specified, the scan code was preceded by a prefix byte that has the value
             // 0xE0 (224).
             const uint maskExtendedKey = 0x1;
-            bool isExtendedKey = ((uint)keyboardStruct.dwFlags & maskExtendedKey) > 0;
+            bool isKeyExtended = ((uint)keyboardStruct.dwFlags & maskExtendedKey) > 0;
 
             Keys keyData = AppendModifierStates((Keys)keyboardStruct.wVk);
 
-            return new KeyEventInformation(keyData, scanCode, timestamp, isKeyDown, isKeyUp, isExtendedKey);
+            return new KeyEventInformation(keyData, scanCode, timestamp, isKeyDown, isKeyUp, isKeyExtended);
         }
 
-        private KeyEventInformation(Keys keyData, int scanCode, int timestamp, bool isKeyDown, bool isKeyUp, bool isExtendedKey) : base(keyData)
+        private KeyEventInformation(Keys keyData, int scanCode, int timestamp, bool isKeyDown, bool isKeyUp, bool isKeyExtended) : base(keyData)
         {
             ScanCode = scanCode;
             Timestamp = timestamp;
-            IsDown = isKeyDown;
-            IsUp = isKeyUp;
-            IsExtended = isExtendedKey;
+            IsKeyDown = isKeyDown;
+            IsKeyUp = isKeyUp;
+            IsKeyExtended = isKeyExtended;
         }
 
         private static bool IsKeyPressed(int vk)

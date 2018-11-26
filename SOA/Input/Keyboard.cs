@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
+using SOA.Extension;
 using SOA.Interface;
 using SOA.Helper;
 using static PInvoke.User32;
@@ -10,8 +12,11 @@ namespace SOA.Input
 {
     public sealed class Keyboard : IKeyboard
     {
-        public event KeyboardEvent OnDown = null;
-        public event KeyboardEvent OnUp = null;
+        public event KeyboardEvent OnKeyDown = null;
+        public event KeyboardEvent OnKeyUp = null;
+
+        private Dictionary<Keys, Action> m_KeyboardDownHandlers = new Dictionary<Keys, Action>();
+        private Dictionary<Keys, Action> m_KeyboardUpHandlers   = new Dictionary<Keys, Action>();
 
         public void Init()
         {
@@ -28,7 +33,17 @@ namespace SOA.Input
 
         }
 
-        public void Send(params Keys[] keys)
+        public void DownKey(Keys keys, Action func)
+        {
+            m_KeyboardDownHandlers.TryAdd(keys, func);
+        }
+
+        public void UpKey(Keys keys, Action func)
+        {
+            m_KeyboardUpHandlers.TryAdd(keys, func);
+        }
+
+        public void SendKey(params Keys[] keys)
         {
 
         }
@@ -42,14 +57,16 @@ namespace SOA.Input
                 (info.Shift ? Keys.Shift : Keys.None) |
                 (info.Alt ? Keys.Alt : Keys.None);
 
-            if (info.IsDown)
+            if (info.IsKeyDown)
             {
-                OnDown?.Invoke(key);
+                OnKeyDown?.Invoke(key);
+                m_KeyboardDownHandlers.TryInvoke(key);
             }
 
-            if (info.IsUp)
+            if (info.IsKeyUp)
             {
-                OnUp?.Invoke(key);
+                OnKeyUp?.Invoke(key);
+                m_KeyboardUpHandlers.TryInvoke(key);
             }
         }
     }

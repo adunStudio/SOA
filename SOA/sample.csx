@@ -2,6 +2,7 @@
 
 // 1. 단축키(HotKey) : (단축키를 사용할 경우 프로세스의 키입력을 무시한다.)
 Keyboard.HotKey(Keys.A,  () => { Console.WriteLine("a"); });
+Keyboard.HotKey(Keys.A,  () => { Console.WriteLine("b"); });
 
 Keyboard.HotKey(Keys.A | Keys.Control, () => 
 {
@@ -19,28 +20,27 @@ Keyboard.HotKey(Keys.A | Keys.Alt, () =>
 
 // 2. 키보드 전역 훅 : (다른 프로세스에서 키보드 입력을 해도 실행된다.)
 // 2.1 키를 누를 때
-Keyboard.OnDown += (key) => 
-{
-    switch (key)
-    {
-        case Keys.B | Keys.Control: Console.WriteLine("Ctrl + B가 눌렸다."); break;
-        case Keys.C: Console.WriteLine("C가 눌렸다."); break;
-        // 쥴립 프로그램 종료
-        case Keys.Z: Program.Exit("Zulip"); break;
-        // 브라우저 실행
-        case Keys.J: Program.Start(@"http://www.google.com"); break;
-        // 쥴립 프로그램
-        case Keys.S: Program.Show("Zulip"); break;
-        case Keys.H: Program.Hide("Zulip"); break;
-    }
+
+Keyboard.OnKeyDown += (key) => {
+    Console.WriteLine(key);
 };
+
+Keyboard.DownKey(Keys.B | Keys.Control, () =>
+{
+    Console.WriteLine("Ctrl + B가 눌렸다.");
+});
+
+Keyboard.DownKey(Keys.S, () =>
+{
+    Program.Start(@"http://www.google.com");
+});
 
 
 // 2.2 키를 땔 때
-Keyboard.OnUp += (key) => {
-    Console.WriteLine(key);
-    
-};
+Keyboard.UpKey(Keys.V, () =>
+{
+    Console.WriteLine("V가 때졌다.");
+});
 
 // 3. 테스트 함수
 Test();
@@ -50,7 +50,7 @@ private void Test()
 }
 
 // 4. 마우스 전역 훅 : (다른 프로세스에서 마우스 입력을 해도 실행된다.)
-Mouse.OnDown += (x, y) =>
+/*Mouse.OnDown += (x, y) =>
 {
     Console.WriteLine(string.Format("click (x: {0}, y: {1})", x, y));
-}
+}*/

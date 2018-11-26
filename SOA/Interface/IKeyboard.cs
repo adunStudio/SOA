@@ -7,13 +7,17 @@ namespace SOA.Interface
 
     public interface IKeyboard : IInit
     {
-        event KeyboardEvent OnDown;
-        event KeyboardEvent OnUp;
+        event KeyboardEvent OnKeyDown;
+        event KeyboardEvent OnKeyUp;
 
         void HotKey(Keys keys, Action func);
 
         void HotKey(string keys, Action func);
 
-        void Send(params Keys[] keys);
+        void DownKey(Keys keys, Action func);
+
+        void UpKey(Keys keys, Action func);
+
+        void SendKey(params Keys[] keys);
     }
 }

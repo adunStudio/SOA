@@ -2,6 +2,8 @@
 using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+
+using SOA.Extension;
 using static PInvoke.User32;
 
 namespace SOA.Helper
@@ -55,14 +57,7 @@ namespace SOA.Helper
             uint modifiers = TranslateModifiers(lParam);
             long keys = modifiers + (((int)lParam >> 16) & LOWER_BIT_MASK);
 
-            Action handler = null;
-
-            if (m_Handlers.TryGetValue((Keys)keys, out handler) == false)
-            {
-                return;
-            }
-
-            handler?.Invoke();
+            m_Handlers.TryInvoke((Keys)keys);
         }
 
         private uint TranslateModifiers(IntPtr lParam)
@@ -117,11 +112,12 @@ namespace SOA.Helper
             uint modifiers = TranslateModifiers(hotkey);
             uint key       = (uint)hotkey & LOWER_BIT_MASK;
 
-            m_Handlers.Add(hotkey, handler);
+            if(m_Handlers.TryAdd(hotkey, handler) == true)
+            {
+                m_CurrentHotkeyId++;
 
-            m_CurrentHotkeyId++;
-
-            RegisterHotKey(IntPtr.Zero, m_CurrentHotkeyId, modifiers, key);
+                RegisterHotKey(IntPtr.Zero, m_CurrentHotkeyId, modifiers, key);
+            }
         }
 
         [DllImport("user32.dll", SetLastError = true)]
