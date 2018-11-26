@@ -10,9 +10,9 @@ namespace SOA.Input
     {
         public int ScanCode { get; }
         public int Timestamp { get; }
-        public bool IsKeyDown { get; }
-        public bool IsKeyUp { get; }
-        public bool IsExtendedKey { get; }
+        public bool IsDown { get; }
+        public bool IsUp { get; }
+        public bool IsExtended { get; }
 
         public static KeyEventInformation Get(HookData hookData)
         {
@@ -41,9 +41,9 @@ namespace SOA.Input
         {
             ScanCode = scanCode;
             Timestamp = timestamp;
-            IsKeyDown = isKeyDown;
-            IsKeyUp = isKeyUp;
-            IsExtendedKey = isExtendedKey;
+            IsDown = isKeyDown;
+            IsUp = isKeyUp;
+            IsExtended = isExtendedKey;
         }
 
         private static bool IsKeyPressed(int vk)

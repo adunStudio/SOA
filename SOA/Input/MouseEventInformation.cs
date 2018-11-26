@@ -10,8 +10,8 @@ namespace SOA.Input
     {
         public int Timestamp { get; }
 
-        public bool IsMouseDown { get; }
-        public bool IsMouseUp { get; }
+        public bool IsDown { get; }
+        public bool IsUp { get; }
 
         public bool IsMouseWheelScrolled
         {
@@ -114,8 +114,8 @@ namespace SOA.Input
         {
             Timestamp = timestamp;
 
-            IsMouseDown = isMouseButtonDown;
-            IsMouseUp = isMouseButtonUp;
+            IsDown = isMouseButtonDown;
+            IsUp = isMouseButtonUp;
         }
     }
 }

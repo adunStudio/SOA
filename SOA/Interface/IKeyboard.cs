@@ -7,8 +7,8 @@ namespace SOA.Interface
 
     public interface IKeyboard : IInit
     {
-        event KeyboardEvent OnKeyDown;
-        event KeyboardEvent OnKeyUp;
+        event KeyboardEvent OnDown;
+        event KeyboardEvent OnUp;
 
         void HotKey(Keys keys, Action func);
 

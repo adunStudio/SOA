@@ -10,8 +10,8 @@ namespace SOA.Input
 {
     public sealed class Keyboard : IKeyboard
     {
-        public event KeyboardEvent OnKeyDown = null;
-        public event KeyboardEvent OnKeyUp = null;
+        public event KeyboardEvent OnDown = null;
+        public event KeyboardEvent OnUp = null;
 
         public void Init()
         {
@@ -42,14 +42,14 @@ namespace SOA.Input
                 (info.Shift ? Keys.Shift : Keys.None) |
                 (info.Alt ? Keys.Alt : Keys.None);
 
-            if (info.IsKeyDown)
+            if (info.IsDown)
             {
-                OnKeyDown?.Invoke(key);
+                OnDown?.Invoke(key);
             }
 
-            if (info.IsKeyUp)
+            if (info.IsUp)
             {
-                OnKeyUp?.Invoke(key);
+                OnUp?.Invoke(key);
             }
         }
     }

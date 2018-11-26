@@ -11,14 +11,14 @@ namespace SOA.Input
 {
     public class Mouse : IMouse
     {
-        public event MouseEvent OnMouseMove = null;
-        public event MouseEvent OnMouseClick = null;
-        public event MouseEvent OnMouseDoubleClick = null;
-        public event MouseEvent OnMouseDown = null;
-        public event MouseEvent OnMouseUp = null;
-        public event MouseEvent OnMouseWheel = null;
-        public event MouseEvent OnMouseDragStart = null;
-        public event MouseEvent OnMouseDragEnd = null;
+        public event MouseEvent OnMove = null;
+        public event MouseEvent OnClick = null;
+        public event MouseEvent OnDoubleClick = null;
+        public event MouseEvent OnDown = null;
+        public event MouseEvent OnUp = null;
+        public event MouseEvent OnWheel = null;
+        public event MouseEvent OnDragStart = null;
+        public event MouseEvent OnDragEnd = null;
 
         private int m_SystemDoubleClickTime;
 
@@ -46,13 +46,13 @@ namespace SOA.Input
             switch (state)
             {
                 case WindowMessage.WM_MOUSEMOVE:
-                    OnMouseMove?.Invoke(x, y); break;
+                    OnMove?.Invoke(x, y); break;
                 case WindowMessage.WM_LBUTTONDOWN:
                 case WindowMessage.WM_RBUTTONDOWN:
-                    OnMouseClick?.Invoke(x, y); break;
+                    OnClick?.Invoke(x, y); break;
                 case WindowMessage.WM_LBUTTONUP:
                 case WindowMessage.WM_RBUTTONUP:
-                    OnMouseDown?.Invoke(x, y); break;
+                    OnDown?.Invoke(x, y); break;
             }
         }
 

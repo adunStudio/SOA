@@ -6,13 +6,13 @@ namespace SOA.Interface
 
     public interface IMouse : IInit
     {
-        event MouseEvent OnMouseMove;
-        event MouseEvent OnMouseClick;
-        event MouseEvent OnMouseDoubleClick;
-        event MouseEvent OnMouseDown;
-        event MouseEvent OnMouseUp;
-        event MouseEvent OnMouseWheel;
-        event MouseEvent OnMouseDragStart;
-        event MouseEvent OnMouseDragEnd;
+        event MouseEvent OnMove;
+        event MouseEvent OnClick;
+        event MouseEvent OnDoubleClick;
+        event MouseEvent OnDown;
+        event MouseEvent OnUp;
+        event MouseEvent OnWheel;
+        event MouseEvent OnDragStart;
+        event MouseEvent OnDragEnd;
     }
 }

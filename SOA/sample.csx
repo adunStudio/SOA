@@ -19,7 +19,7 @@ Keyboard.HotKey(Keys.A | Keys.Alt, () =>
 
 // 2. 키보드 전역 훅 : (다른 프로세스에서 키보드 입력을 해도 실행된다.)
 // 2.1 키를 누를 때
-Keyboard.OnKeyDown += (key) => 
+Keyboard.OnDown += (key) => 
 {
     switch (key)
     {
@@ -37,7 +37,7 @@ Keyboard.OnKeyDown += (key) =>
 
 
 // 2.2 키를 땔 때
-Keyboard.OnKeyUp += (key) => {
+Keyboard.OnUp += (key) => {
     Console.WriteLine(key);
     
 };
@@ -50,7 +50,7 @@ private void Test()
 }
 
 // 4. 마우스 전역 훅 : (다른 프로세스에서 마우스 입력을 해도 실행된다.)
-Mouse.OnMouseDown += (x, y) =>
+Mouse.OnDown += (x, y) =>
 {
     Console.WriteLine(string.Format("click (x: {0}, y: {1})", x, y));
 }
