@@ -78,9 +78,9 @@ namespace SOA.Input
             };
         }
 
-        public void SendKey(params Keys[] keys)
+        public void Send(string text)
         {
-
+            InputHelper.instance.SendText(text);
         }
 
         public bool IsKeyDown(Keys key)

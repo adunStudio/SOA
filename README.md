@@ -156,3 +156,11 @@ Keyboard.ComboKey(Keys.LControlKey, Keys.D, Keys.G, () =>
     /// Logic
 });
 ```
+
+#### 16. [034] 키보드 입력
+
+- InputHelper
+
+```c#
+Keyboard.Send("Hello!\n");
+```

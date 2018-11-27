@@ -215,9 +215,9 @@
     <Compile Include="Extension\DictionaryExtension.cs" />
     <Compile Include="Extension\KeysExtension.cs" />
     <Compile Include="Helper\HookHelper.cs" />
+    <Compile Include="Helper\InputHelper.cs" />
     <Compile Include="Helper\SendHelper.cs" />
     <Compile Include="Helper\Singleton.cs" />
-    <Compile Include="Input\Combination.cs" />
     <Compile Include="Input\KeyEventInformation.cs" />
     <Compile Include="Input\MouseEventInformation.cs" />
     <Compile Include="Interface\IInit.cs" />
@@ -237,7 +237,6 @@
     <Compile Include="Interface\ICamera.cs" />
     <Compile Include="Interface\IGui.cs" />
     <Compile Include="Util\Program.cs" />
-    <Compile Include="Input\SequenceBase.cs" />
     <Compile Include="Win32.cs" />
   </ItemGroup>
   <ItemGroup>

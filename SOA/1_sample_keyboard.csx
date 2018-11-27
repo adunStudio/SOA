@@ -2,20 +2,22 @@
 Console.WriteLine("Keyboard Example");
 
 // 단축키
-Keyboard.HotKey(Keys.J, () => 
+Keyboard.HotKey(Keys.H, () => 
 {
-    Console.Write("단축키: J");
+    // 키보드 입력
+    Keyboard.Send("Hello!\n");
 });
 
 Keyboard.HotKey(Keys.Control | Keys.J, () => 
 {
-    /// Logic
 });
 
 
 // 글로벌 훅 (모든 키)
 Keyboard.OnKeyDown += (key) => 
 {
+    
+
     /// Logic
 };
 
@@ -25,10 +27,12 @@ Keyboard.OnKeyDown += (key) =>
 };
 
 // 글로벌 훅 (특정 키)
-Keyboard.DownKey(Keys.A | Keys.Control, () =>
+Keyboard.DownKey(Keys.A, () =>
 {
+   
+
     // 특정 키 눌러져 있는지 검사 가능
-    if(Keyboard.IsKeyDown(Keys.B))
+    if (Keyboard.IsKeyDown(Keys.B))
     {
         /// Logic
     }

@@ -22,7 +22,7 @@ namespace SOA.Interface
 
         void ComboKey(Keys keys1, Keys keys2, Keys keys3, Keys keys4, Action func);
     
-        void SendKey(params Keys[] keys);
+        void Send(string text);
 
         bool IsKeyDown(Keys key);
     }
