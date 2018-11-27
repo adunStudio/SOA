@@ -147,3 +147,12 @@ Mouse.OnMouseDown += (x, y) =>
 // Zulip이라는 프로그램 종료.
 Program.Close("Zulip");
 ```
+
+#### 15. [031], [032], [033] 리팩토링, 키보드 콤보, 키보드 예제
+
+```c#
+Keyboard.ComboKey(Keys.LControlKey, Keys.D, Keys.G, () =>
+{
+    /// Logic
+});
+```

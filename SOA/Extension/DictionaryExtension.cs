@@ -6,7 +6,7 @@ namespace SOA.Extension
 {
     public static class DictionaryExtension
     {
-        public static bool TryAdd(this Dictionary<Keys, Action> dictionary, Keys key, Action value)
+        public static bool TryAdd<T>(this Dictionary<Keys, T> dictionary, Keys key, T value)
         {
             if (dictionary.ContainsKey(key) == false)
             {

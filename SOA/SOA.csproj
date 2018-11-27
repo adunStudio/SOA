@@ -217,6 +217,7 @@
     <Compile Include="Helper\HookHelper.cs" />
     <Compile Include="Helper\SendHelper.cs" />
     <Compile Include="Helper\Singleton.cs" />
+    <Compile Include="Input\Combination.cs" />
     <Compile Include="Input\KeyEventInformation.cs" />
     <Compile Include="Input\MouseEventInformation.cs" />
     <Compile Include="Interface\IInit.cs" />
@@ -236,7 +237,7 @@
     <Compile Include="Interface\ICamera.cs" />
     <Compile Include="Interface\IGui.cs" />
     <Compile Include="Util\Program.cs" />
-    <Compile Include="Util\SequenceBase.cs" />
+    <Compile Include="Input\SequenceBase.cs" />
     <Compile Include="Win32.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -245,6 +246,7 @@
     </None>
     <None Include="packages.config" />
     <None Include="bin\sample.csx" />
+    <None Include="1_sample_keyboard.csx" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="SOAApp.resx">

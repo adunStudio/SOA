@@ -19,6 +19,8 @@ namespace SOA
 {
     public sealed class SOAApp
     {
+        public SOAApp SOA = null;
+
         #region Inputs
         public IKeyboard Keyboard { get; } = new Keyboard();
         public IMouse Mouse { get; } = new Mouse();
@@ -33,7 +35,7 @@ namespace SOA
 
         public SOAApp()
         {
-           
+            SOA = this;
         }
 
         public void Run()

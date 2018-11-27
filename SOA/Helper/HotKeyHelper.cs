@@ -112,7 +112,7 @@ namespace SOA.Helper
             uint modifiers = TranslateModifiers(hotkey);
             uint key       = (uint)hotkey & LOWER_BIT_MASK;
 
-            if(m_Handlers.TryAdd(hotkey, handler) == true)
+            if(m_Handlers.TryAdd<Action>(hotkey, handler) == true)
             {
                 m_CurrentHotkeyId++;
 

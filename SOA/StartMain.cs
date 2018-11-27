@@ -46,7 +46,7 @@ namespace SOA
             }
 
             //string path = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName, "sample.csx");
-            string path = "C:/Users/adunstudio/Desktop/Spear_of_Adun/SOA/sample.csx";
+            string path = "C:/Users/adunstudio/Desktop/Spear_of_Adun/SOA/1_sample_keyboard.csx";
             var app = new SOAApp();
 
             Console.WriteLine("Program Start...");
