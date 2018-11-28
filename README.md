@@ -164,3 +164,12 @@ Keyboard.ComboKey(Keys.LControlKey, Keys.D, Keys.G, () =>
 ```c#
 Keyboard.Send("Hello!\n");
 ```
+
+#### 17. [035] 키보드 콤보 입력, 딜레이 기능
+
+- IDelay
+
+```c#
+Keyboard.Send("Hello!\n").Delay(1000).Send(Keys.O, Keys.O, Keys.P, Keys.S);
+Keyboard.SendCombo(Keys.LControlKey, Keys.A);
+```

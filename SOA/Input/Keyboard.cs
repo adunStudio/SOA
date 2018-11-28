@@ -26,6 +26,24 @@ namespace SOA.Input
             HookHelper.instance.HookGlobalKeyboard(HookKeyboardCallback);
         }
 
+        public IKeyboard Delay(int ms)
+        {
+            DateTime now = DateTime.Now;
+
+            TimeSpan duration = new TimeSpan(0, 0, 0, 0, ms);
+
+            DateTime future = now.Add(duration);
+
+            while (future >= now)
+            {
+                Application.DoEvents();
+
+                now = DateTime.Now;
+            }
+
+            return this;
+        }
+
         public void HotKey(Keys keys, Action func)
         {
             HotKeyHelper.instance.RegisterHotKey(keys, func);
@@ -41,19 +59,19 @@ namespace SOA.Input
             m_KeyboardUpHandlers.TryAdd<Action>(keys, func);
         }
 
-        public void ComboKey(Keys keys1, Keys keys2, Action func)
+        public void ComboKey(Keys key1, Keys key2, Action func)
         {
-            ComboKey(func, keys1, keys2);
+            ComboKey(func, key1, key2);
         }
 
-        public void ComboKey(Keys keys1, Keys keys2, Keys keys3, Action func)
+        public void ComboKey(Keys key1, Keys key2, Keys key3, Action func)
         {
-            ComboKey(func, keys1, keys2, keys3);
+            ComboKey(func, key1, key2, key3);
         }
 
-        public void ComboKey(Keys keys1, Keys keys2, Keys keys3, Keys keys4, Action func)
+        public void ComboKey(Keys key1, Keys key2, Keys key3, Keys key4, Action func)
         {
-            ComboKey(func, keys1, keys2, keys3, keys4);
+            ComboKey(func, key1, key2, key3, key4);
         }
 
         private void ComboKey(Action func, params Keys[] keys)
@@ -64,7 +82,7 @@ namespace SOA.Input
                 {
                     if (key > Keys.OemClear)
                     {
-                        Console.WriteLine("ComboKey: 이 메서드에서 특수문자는 사용 불가능합니다.");
+                        Console.WriteLine("ComboKey: 이 메서드에서 Control, Shift, Alt 특수문자는 사용 불가능합니다.");
                         return;
                     }
 
@@ -78,16 +96,61 @@ namespace SOA.Input
             };
         }
 
-        public void Send(string text)
+        public IKeyboard Send(params Keys[] keys)
+        {
+            foreach (Keys key in keys)
+            {
+                if (key > Keys.OemClear)
+                {
+                    Console.WriteLine("isKeyDown(Keys key): 이이 메서드에서 Control, Shift, Alt 특수문자는 사용 불가능합니다.");
+                    return this;
+                }
+            }
+
+            VirtualKey[] virtualKeyArray = Array.ConvertAll(keys, key => (VirtualKey)key);
+
+            InputHelper.instance.SendKeys(virtualKeyArray);
+
+            return this;
+        }
+
+        public IKeyboard Send(string text)
         {
             InputHelper.instance.SendText(text);
+
+            return this;
+        }
+
+        public IKeyboard SendCombo(params Keys[] keys)
+        {
+            foreach (Keys key in keys)
+            {
+                if (key > Keys.OemClear)
+                {
+                    Console.WriteLine("isKeyDown(Keys key): 이이 메서드에서 Control, Shift, Alt 특수문자는 사용 불가능합니다.");
+                    return this;
+                }
+            }
+
+            VirtualKey[] virtualKeyArray = Array.ConvertAll(keys, key => (VirtualKey)key);
+
+            InputHelper.instance.SendComboKeys(virtualKeyArray);
+
+            return this;
+        }
+
+        public IKeyboard SendCombo(string text)
+        {
+            InputHelper.instance.SendComboText(text);
+
+            return this;
         }
 
         public bool IsKeyDown(Keys key)
         {
             if(key > Keys.OemClear)
             {
-                Console.WriteLine("isKeyDown(Keys key): 이 메서드에서 특수문자는 사용 불가능합니다.");
+                Console.WriteLine("isKeyDown(Keys key): 이이 메서드에서 Control, Shift, Alt 특수문자는 사용 불가능합니다.");
                 return false;
             }
 

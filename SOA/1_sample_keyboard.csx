@@ -5,7 +5,13 @@ Console.WriteLine("Keyboard Example");
 Keyboard.HotKey(Keys.H, () => 
 {
     // 키보드 입력
-    Keyboard.Send("Hello!\n");
+    Keyboard.Send("Hello!\n").Delay(1000).Send(Keys.O, Keys.O, Keys.P, Keys.S);
+});
+
+Keyboard.HotKey(Keys.J, () =>
+{
+    // 키보드 입력
+    Keyboard.SendCombo(Keys.LControlKey, Keys.A);
 });
 
 Keyboard.HotKey(Keys.Control | Keys.J, () => 

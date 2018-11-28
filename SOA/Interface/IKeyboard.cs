@@ -5,7 +5,7 @@ namespace SOA.Interface
 {
     public delegate void KeyboardEvent(Keys key);
 
-    public interface IKeyboard : IInit
+    public interface IKeyboard : IInit, IDelay<IKeyboard>
     {
         event KeyboardEvent OnKeyDown;
         event KeyboardEvent OnKeyUp;
@@ -16,13 +16,19 @@ namespace SOA.Interface
 
         void UpKey(Keys keys, Action func);
 
-        void ComboKey(Keys keys1, Keys keys2, Action func);
+        void ComboKey(Keys key1, Keys key2, Action func);
        
-        void ComboKey(Keys keys1, Keys keys2, Keys keys3, Action func);
+        void ComboKey(Keys key1, Keys key2, Keys key3, Action func);
 
-        void ComboKey(Keys keys1, Keys keys2, Keys keys3, Keys keys4, Action func);
+        void ComboKey(Keys key1, Keys key2, Keys key3, Keys key4, Action func);
     
-        void Send(string text);
+        IKeyboard Send(params Keys[] keys);
+
+        IKeyboard Send(string text);
+
+        IKeyboard SendCombo(params Keys[] keys);
+
+        IKeyboard SendCombo(string text);
 
         bool IsKeyDown(Keys key);
     }
