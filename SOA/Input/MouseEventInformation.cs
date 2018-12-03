@@ -17,7 +17,7 @@ namespace SOA.Input
         {
             get
             {
-                return Delta > 0;
+                return Delta != 0;
             }
         }
 
@@ -116,6 +116,11 @@ namespace SOA.Input
 
             IsMouseDown = isMouseButtonDown;
             IsMouseUp = isMouseButtonUp;
+        }
+
+        internal MouseEventInformation ToDobuleClickMouseEventInformation()
+        {
+            return new MouseEventInformation(Button, 2, Timestamp, X, Y, Delta, IsMouseDown, IsMouseUp);
         }
     }
 }

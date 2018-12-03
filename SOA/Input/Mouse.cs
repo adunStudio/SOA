@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 using SOA.Interface;
 using SOA.Helper;
@@ -20,10 +21,23 @@ namespace SOA.Input
         public event MouseEvent OnMouseDragStart = null;
         public event MouseEvent OnMouseDragEnd = null;
 
+        private MouseButtons m_DoubleButton = MouseButtons.None;
+        private MouseButtons m_SingleButton = MouseButtons.None;
+
         private int m_SystemDoubleClickTime;
 
         private MouseButtons m_PreviousClicked;
-        private Point m_PreviousClickedLocation;
+
+        private const int m_DefaultPositionXY = -1;
+
+        private int m_PreviousX = m_DefaultPositionXY;
+        private int m_PreviousY = m_DefaultPositionXY;
+
+        private int m_DragStartPositionX = m_DefaultPositionXY;
+        private int m_DragStartPositionY = m_DefaultPositionXY;
+
+        private bool m_IsDragging = false;
+         
         private int m_PreviousClickedTime;
 
         public void Init()
@@ -32,36 +46,106 @@ namespace SOA.Input
             HookHelper.instance.HookGlobalMouse(HookMouseCallback);
         }
 
-        private void HookMouseCallback(HookData hookData)
+        public IMouse Delay(int ms)
         {
-            //MouseEventInformation info = MouseEventInformation.Get(hookData);
+            DateTime now = DateTime.Now;
 
-   
-            WindowMessage state = (WindowMessage)hookData.wParam;
+            TimeSpan duration = new TimeSpan(0, 0, 0, 0, ms);
 
-            MOUSEINPUT mouseStruct = Marshal.PtrToStructure<MOUSEINPUT>(hookData.lParam);
-            int x = mouseStruct.dx;
-            int y = mouseStruct.dy;
+            DateTime future = now.Add(duration);
 
-            switch (state)
+            while (future >= now)
             {
-                case WindowMessage.WM_MOUSEMOVE:
-                    OnMouseMove?.Invoke(x, y); break;
-                case WindowMessage.WM_LBUTTONDOWN:
-                case WindowMessage.WM_RBUTTONDOWN:
-                    OnMouseClick?.Invoke(x, y); break;
-                case WindowMessage.WM_LBUTTONUP:
-                case WindowMessage.WM_RBUTTONUP:
-                    OnMouseDown?.Invoke(x, y); break;
+                Application.DoEvents();
+
+                now = DateTime.Now;
             }
+
+            return this;
         }
 
-        private bool IsDoubleClick(MouseEventInformation info)
+        private void HookMouseCallback(HookData hookData)
+        {
+            MouseEventInformation info = MouseEventInformation.Get(hookData);
+
+            int mx = info.X;
+            int my = info.Y;
+
+            if(info.IsMouseDown)
+            {
+                OnMouseDown?.Invoke(mx, my);
+
+                if(info.Clicks == 2)
+                {
+                    m_DoubleButton |= info.Button;
+                }
+
+                if(info.Clicks == 1)
+                {
+                    m_SingleButton |= info.Button;
+                }
+            }
+
+            if(info.IsMouseUp)
+            {
+                OnMouseUp?.Invoke(mx, my);
+
+                if((m_SingleButton & info.Button) != MouseButtons.None)
+                {
+                    OnMouseClick?.Invoke(mx, my);
+                    m_SingleButton &= ~info.Button;
+                }
+
+                if ((m_DoubleButton & info.Button) != MouseButtons.None)
+                {
+                    OnMouseDoubleClick?.Invoke(mx, my);
+                    m_DoubleButton &= ~info.Button;
+                }
+            }
+
+            if(info.IsMouseWheelScrolled)
+            {
+                OnMouseWheel?.Invoke(mx, my);
+            }
+
+            if(IsMoved(mx, my))
+            {
+                m_PreviousX = mx;
+                m_PreviousY = my;
+
+                OnMouseMove?.Invoke(mx, my);
+            }
+
+           /* if ((m_SingleButton & info.Button) != MouseButtons.None)
+            {
+                if(m_DragStartPositionX == m_DefaultPositionXY && m_DragStartPositionY == m_DefaultPositionXY)
+                {
+                    m_DragStartPositionX = mx;
+                    m_DragStartPositionY = my;
+
+                    if(m_IsDragging == false)
+                    {
+                        var isXDragging = 
+                    }
+                }
+            }
+            else
+            {
+
+            }*/
+        }
+
+        private bool IsMoved(int x, int y)
+        {
+            return m_PreviousX != x || m_PreviousY != y;
+        }
+
+        /*private bool IsDoubleClick(MouseEventInformation info)
         {
             return info.Button == m_PreviousClicked &&
                 info.Location == m_PreviousClickedLocation &&
                 info.Timestamp - m_PreviousClickedTime <= m_SystemDoubleClickTime;
-        }
+        }*/
 
         [DllImport("user32")]
         private static extern int GetDoubleClickTime();

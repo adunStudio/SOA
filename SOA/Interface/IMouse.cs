@@ -4,7 +4,7 @@ namespace SOA.Interface
 {
     public delegate void MouseEvent(int x, int y);
 
-    public interface IMouse : IInit
+    public interface IMouse : IInit, IDelay<IMouse>
     {
 
         event MouseEvent OnMouseMove;
