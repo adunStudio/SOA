@@ -71,11 +71,6 @@ namespace SOA.Input
             return this;
         }
 
-        public bool IsDragMode()
-        {
-            return m_dragMode;
-        }
-
         private void HookMouseCallback(HookData hookData)
         {
             MouseEventInformation info = MouseEventInformation.Get(hookData);
@@ -210,5 +205,48 @@ namespace SOA.Input
 
         [DllImport("user32")]
         private static extern int GetDoubleClickTime();
+
+        public IMouse MoveTo(int x, int y)
+        {
+            InputHelper.instance.SendMovementAbsolute(x, y);
+
+            return this;
+        }
+
+        public IMouse MoveBy(int x, int y)
+        {
+            InputHelper.instance.SendMovementRelative(x, y);
+
+            return this;
+        }
+
+        public IMouse Click(MouseButtons button)
+        {
+            InputHelper.instance.SendButtonClick(button);
+
+            return this;
+        }
+
+        public IMouse DoubleClick(MouseButtons button)
+        {
+            InputHelper.instance.SendButtonDoubleClick(button);
+
+            return this;
+        }
+
+        public IMouse Wheel(int delta)
+        {
+            return this;
+        }
+
+        public  IMouse Drag(int x, int y, int dx, int dy)
+        {
+            return this;
+        }
+
+        public bool IsDragMode()
+        {
+            return m_dragMode;
+        }
     }
 }

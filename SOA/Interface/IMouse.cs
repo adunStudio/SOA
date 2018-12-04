@@ -16,6 +16,18 @@ namespace SOA.Interface
         event MouseEvent OnMouseDragStart;
         event MouseEvent OnMouseDragEnd;
 
+        IMouse MoveTo(int x, int y);
+
+        IMouse MoveBy(int x, int y);
+
+        IMouse Click(MouseButtons button);
+
+        IMouse DoubleClick(MouseButtons button);
+
+        IMouse Wheel(int delta);
+
+        IMouse Drag(int x, int y, int dx, int dy);
+
         bool IsDragMode();
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 using static PInvoke.User32;
 
@@ -8,6 +9,10 @@ namespace SOA.Helper
 {
     public sealed class InputHelper : Singleton<InputHelper>
     {
+        /* 키보드 */
+        #region 키보드
+
+        #region String
         public void SendText(string text)
         {
             int length = text.Length;
@@ -88,7 +93,9 @@ namespace SOA.Helper
 
             return keyInput;
         }
+        #endregion
 
+        #region VirtualKey
         public void SendKeys(VirtualKey[] virtualKeyArray)
         {
             int length = virtualKeyArray.Length;
@@ -163,7 +170,7 @@ namespace SOA.Helper
             return keyInput;
         }
 
-        private static bool IsExtendedkey(VirtualKey keyCode)
+        private bool IsExtendedkey(VirtualKey keyCode)
         {
             if (keyCode == VirtualKey.VK_MENU ||
                 keyCode == VirtualKey.VK_LMENU ||
@@ -190,7 +197,123 @@ namespace SOA.Helper
 
             return false;
         }
+        #endregion
 
+        #endregion
+
+        /* 마우스 */
+        public void SendButtonClick(MouseButtons button)
+        {
+            List<INPUT> inputList = new List<INPUT>();
+
+            inputList.Add(GetMouseButtonDownInput(button));
+            inputList.Add(GetMouseButtonUpInput(button));
+
+            Send(inputList);
+        }
+
+        public void SendButtonDoubleClick(MouseButtons button)
+        {
+            List<INPUT> inputList = new List<INPUT>();
+
+            inputList.Add(GetMouseButtonDownInput(button));
+            inputList.Add(GetMouseButtonUpInput(button));
+
+            inputList.Add(GetMouseButtonDownInput(button));
+            inputList.Add(GetMouseButtonUpInput(button));
+
+            Send(inputList);
+        }
+
+        private INPUT GetMouseButtonDownInput(MouseButtons button)
+        {
+            MOUSEEVENTF buttonFlag = MOUSEEVENTF.MOUSEEVENTF_LEFTDOWN;
+
+            switch (button)
+            {
+                case MouseButtons.Left:
+                    buttonFlag = MOUSEEVENTF.MOUSEEVENTF_LEFTDOWN; break;
+                case MouseButtons.Right:
+                    buttonFlag = MOUSEEVENTF.MOUSEEVENTF_RIGHTDOWN; break;
+                case MouseButtons.Middle:
+                    buttonFlag = MOUSEEVENTF.MOUSEEVENTF_MIDDLEDOWN; break;
+            }
+
+            INPUT buttonInput = new INPUT
+            {
+                type = InputType.INPUT_MOUSE,
+            };
+
+            buttonInput.Inputs.mi.dwFlags = buttonFlag;
+
+            return buttonInput;
+        }
+
+        private INPUT GetMouseButtonUpInput(MouseButtons button)
+        {
+            MOUSEEVENTF buttonFlag = MOUSEEVENTF.MOUSEEVENTF_LEFTDOWN;
+
+            switch (button)
+            {
+                case MouseButtons.Left:
+                    buttonFlag = MOUSEEVENTF.MOUSEEVENTF_LEFTUP; break;
+                case MouseButtons.Right:
+                    buttonFlag = MOUSEEVENTF.MOUSEEVENTF_RIGHTUP; break;
+                case MouseButtons.Middle:
+                    buttonFlag = MOUSEEVENTF.MOUSEEVENTF_MIDDLEUP; break;
+            }
+
+            INPUT buttonInput = new INPUT
+            {
+                type = InputType.INPUT_MOUSE,
+            };
+
+            buttonInput.Inputs.mi.dwFlags = buttonFlag;
+
+            return buttonInput;
+        }
+
+        public void SendMovementAbsolute(int x, int y)
+        {
+            List<INPUT> inputList = new List<INPUT>();
+
+            inputList.Add(GetMouseMovementInput(x, y, isAbsolute: true));
+
+            Send(inputList);
+        }
+
+        public void SendMovementRelative(int x, int y)
+        {
+            List<INPUT> inputList = new List<INPUT>();
+
+            inputList.Add(GetMouseMovementInput(x, y, isAbsolute: false));
+
+            Send(inputList);
+        }
+
+        private INPUT GetMouseMovementInput(int x, int y, bool isAbsolute)
+        {
+            MOUSEEVENTF moventFlag = MOUSEEVENTF.MOUSEEVENTF_MOVE;
+
+            if(isAbsolute)
+            {
+                moventFlag |= MOUSEEVENTF.MOUSEEVENTF_ABSOLUTE;
+            }
+
+            INPUT movementInput = new INPUT
+            {
+                type = InputType.INPUT_MOUSE,
+            };
+
+            movementInput.Inputs.mi.dwFlags = moventFlag;
+            movementInput.Inputs.mi.dx = x;
+            movementInput.Inputs.mi.dy = y;
+
+            return movementInput;
+        }
+
+
+        /* Send */
         private void Send(List<INPUT> inputList)
         {
             INPUT[] inputArray = inputList.ToArray();

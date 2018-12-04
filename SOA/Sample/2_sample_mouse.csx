@@ -1,6 +1,23 @@
 ﻿/* 마우스 예제 */
 Console.WriteLine("Mouse Example");
 
+// 마우스 시뮬레이터
+Keyboard.HotKey(Keys.T, () =>
+{
+    // 클릭 시뮬레이션
+    //Mouse.Click(MouseButtons.Left);
+
+    // 더블 클릭 시뮬레이션 
+    //Mouse.DoubleClick(MouseButtons.Left);
+
+    // 절대 이동 시뮬레이션 (픽셀 단위)
+    Mouse.MoveTo(1900, 1000);
+
+    // 상대 이동 시뮬레이션 (픽셀 단위)
+    //Mouse.MoveBy(10, 0);
+});
+
+
 // 마우스 다운
 Mouse.OnMouseDown += (x, y, b, d) =>
 {
