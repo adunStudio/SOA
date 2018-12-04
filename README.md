@@ -173,3 +173,7 @@ Keyboard.Send("Hello!\n");
 Keyboard.Send("Hello!\n").Delay(1000).Send(Keys.O, Keys.O, Keys.P, Keys.S);
 Keyboard.SendCombo(Keys.LControlKey, Keys.A);
 ```
+
+#### 18. [036], [037] 마우스 훅 이벤트, 딜레이 기능
+
+- 마우스 업, 다운, 클릭, 더블 클릭, 휠, 드래그 기능

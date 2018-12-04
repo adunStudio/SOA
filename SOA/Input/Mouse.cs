@@ -12,11 +12,11 @@ namespace SOA.Input
 {
     public class Mouse : IMouse
     {
-        public event MouseEvent OnMouseMove = null;
-        public event MouseEvent OnMouseClick = null;
-        public event MouseEvent OnMouseDoubleClick = null;
         public event MouseEvent OnMouseDown = null;
         public event MouseEvent OnMouseUp = null;
+        public event MouseEvent OnMouseClick = null;
+        public event MouseEvent OnMouseDoubleClick = null;
+        public event MouseEvent OnMouseMove = null;
         public event MouseEvent OnMouseWheel = null;
         public event MouseEvent OnMouseDragStart = null;
         public event MouseEvent OnMouseDragEnd = null;
@@ -25,24 +25,31 @@ namespace SOA.Input
         private MouseButtons m_SingleButton = MouseButtons.None;
 
         private int m_SystemDoubleClickTime;
+        private int m_SystemDragX;
+        private int m_SystemDragY;
 
-        private MouseButtons m_PreviousClicked;
+        private MouseButtons m_PreviousClickedButton;
+        private int m_PreviousClickedTime;
 
         private const int m_DefaultPositionXY = -1;
 
         private int m_PreviousX = m_DefaultPositionXY;
         private int m_PreviousY = m_DefaultPositionXY;
 
+        private int m_PreviousClickedX = m_DefaultPositionXY;
+        private int m_PreviousClickedY = m_DefaultPositionXY;
+
         private int m_DragStartPositionX = m_DefaultPositionXY;
         private int m_DragStartPositionY = m_DefaultPositionXY;
 
-        private bool m_IsDragging = false;
+        private bool m_dragMode = false;
          
-        private int m_PreviousClickedTime;
-
         public void Init()
         {
             m_SystemDoubleClickTime = GetDoubleClickTime();
+            m_SystemDragX = GetSystemMetrics(SystemMetric.SM_CXDRAG);
+            m_SystemDragY = GetSystemMetrics(SystemMetric.SM_CYDRAG);
+
             HookHelper.instance.HookGlobalMouse(HookMouseCallback);
         }
 
@@ -64,16 +71,28 @@ namespace SOA.Input
             return this;
         }
 
+        public bool IsDragMode()
+        {
+            return m_dragMode;
+        }
+
         private void HookMouseCallback(HookData hookData)
         {
             MouseEventInformation info = MouseEventInformation.Get(hookData);
-
+          
             int mx = info.X;
             int my = info.Y;
+            MouseButtons button = info.Button;
 
+            // 마우스 다운
             if(info.IsMouseDown)
             {
-                OnMouseDown?.Invoke(mx, my);
+                if(IsDoubleClick(info))
+                {
+                    info = info.ToDobuleClickMouseEventInformation();
+                }
+
+                OnMouseDown?.Invoke(mx, my, button);
 
                 if(info.Clicks == 2)
                 {
@@ -82,57 +101,97 @@ namespace SOA.Input
 
                 if(info.Clicks == 1)
                 {
-                    m_SingleButton |= info.Button;
+                    m_SingleButton |= button;
                 }
             }
 
-            if(info.IsMouseUp)
+            // 마우스 업
+            if (info.IsMouseUp)
             {
-                OnMouseUp?.Invoke(mx, my);
+                OnMouseUp?.Invoke(mx, my, button);
 
-                if((m_SingleButton & info.Button) != MouseButtons.None)
+                // 마우스 클릭
+                if((m_SingleButton & button) != MouseButtons.None)
                 {
-                    OnMouseClick?.Invoke(mx, my);
-                    m_SingleButton &= ~info.Button;
+                    OnMouseClick?.Invoke(mx, my, button);
+                    m_SingleButton &= ~button;
                 }
 
-                if ((m_DoubleButton & info.Button) != MouseButtons.None)
+                // 마우스 더블 클릭
+                if ((m_DoubleButton & button) != MouseButtons.None)
                 {
-                    OnMouseDoubleClick?.Invoke(mx, my);
-                    m_DoubleButton &= ~info.Button;
+                    OnMouseDoubleClick?.Invoke(mx, my, button);
+                    m_DoubleButton &= ~button;
+                }
+
+                if (info.Clicks == 2)
+                {
+                    m_PreviousClickedButton = MouseButtons.None;
+                    m_PreviousClickedTime = 0;
+                    m_PreviousClickedX = m_DefaultPositionXY;
+                    m_PreviousClickedY = m_DefaultPositionXY;
+                }
+
+                if (info.Clicks == 1)
+                {
+                    m_PreviousClickedButton = info.Button;
+                    m_PreviousClickedTime = info.Timestamp;
+                    m_PreviousClickedX = mx;
+                    m_PreviousClickedY = my;
                 }
             }
 
+            // 마우스 스크롤
             if(info.IsMouseWheelScrolled)
             {
-                OnMouseWheel?.Invoke(mx, my);
+                OnMouseWheel?.Invoke(mx, my, button, info.Delta > 0 ? 1 : -1);
             }
 
+            // 마우스 이동
             if(IsMoved(mx, my))
             {
                 m_PreviousX = mx;
                 m_PreviousY = my;
 
-                OnMouseMove?.Invoke(mx, my);
+                OnMouseMove?.Invoke(mx, my, button);
             }
 
-           /* if ((m_SingleButton & info.Button) != MouseButtons.None)
+            // 마우스 드래그
+            if ((m_SingleButton & MouseButtons.Left) != MouseButtons.None)
             {
-                if(m_DragStartPositionX == m_DefaultPositionXY && m_DragStartPositionY == m_DefaultPositionXY)
+                if (m_DragStartPositionX == m_DefaultPositionXY && m_DragStartPositionY == m_DefaultPositionXY)
                 {
                     m_DragStartPositionX = mx;
                     m_DragStartPositionY = my;
+                }
 
-                    if(m_IsDragging == false)
+                // 마우스 드래그 스타트
+                if (m_dragMode == false)
+                {
+                    bool isXDragging = Math.Abs(mx - m_DragStartPositionX) > m_SystemDragX;
+                    bool isYDragging = Math.Abs(my - m_DragStartPositionY) > m_SystemDragY;
+
+                    m_dragMode = isXDragging || isYDragging;
+
+                    if (m_dragMode == true)
                     {
-                        var isXDragging = 
+                        OnMouseDragStart?.Invoke(mx, my, button);
                     }
                 }
             }
             else
             {
+                m_DragStartPositionX = m_DefaultPositionXY;
+                m_DragStartPositionY = m_DefaultPositionXY;
 
-            }*/
+                // 마우스 드래그 엔드
+                if(m_dragMode == true)
+                {
+                    OnMouseDragEnd?.Invoke(mx, my, button);
+
+                    m_dragMode = false;
+                }
+            }
         }
 
         private bool IsMoved(int x, int y)
@@ -140,12 +199,14 @@ namespace SOA.Input
             return m_PreviousX != x || m_PreviousY != y;
         }
 
-        /*private bool IsDoubleClick(MouseEventInformation info)
+        private bool IsDoubleClick(MouseEventInformation info)
         {
-            return info.Button == m_PreviousClicked &&
-                info.Location == m_PreviousClickedLocation &&
+            return 
+                info.Button == m_PreviousClickedButton &&
+                info.X == m_PreviousClickedX &&
+                info.Y == m_PreviousClickedY &&
                 info.Timestamp - m_PreviousClickedTime <= m_SystemDoubleClickTime;
-        }*/
+        }
 
         [DllImport("user32")]
         private static extern int GetDoubleClickTime();
