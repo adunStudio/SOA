@@ -9,6 +9,16 @@ namespace SOA.Helper
 {
     public sealed class InputHelper : Singleton<InputHelper>
     {
+        private readonly int m_System_CoordinateX;
+        private readonly int m_System_CoordinateY;
+
+        private const int m_ConvertValue = 65536;
+
+        public InputHelper()
+        {
+            m_System_CoordinateX = GetSystemMetrics(SystemMetric.SM_CXSCREEN);
+            m_System_CoordinateY = GetSystemMetrics(SystemMetric.SM_CYSCREEN);
+        }
         /* 키보드 */
         #region 키보드
 
@@ -297,6 +307,9 @@ namespace SOA.Helper
 
             if(isAbsolute)
             {
+                x = (x * m_ConvertValue) / m_System_CoordinateX + 1;
+                y = (y * m_ConvertValue) / m_System_CoordinateY + 1;
+
                 moventFlag |= MOUSEEVENTF.MOUSEEVENTF_ABSOLUTE;
             }
 
