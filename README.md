@@ -181,3 +181,8 @@ Keyboard.SendCombo(Keys.LControlKey, Keys.A);
 #### 19. [038], [039], [040] 마우스 입력
 
 - [입력] 마우스 클릭, 이동, 휠, 드래그 기능
+
+#### 20. [041] 캡쳐 기능 업데이트, 캡쳐 예제
+
+- `Camera.Capture(sx, sy, dx, dy)`
+- mac os 캡쳐 기능을 모방한 캡쳐 프로그램 예제

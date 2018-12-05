@@ -248,6 +248,7 @@
     <None Include="bin\sample.csx" />
     <None Include="Sample\1_sample_keyboard.csx" />
     <None Include="Sample\2_sample_mouse.csx" />
+    <None Include="Sample\3_sample_capture.csx" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="SOAApp.resx">

@@ -37,6 +37,28 @@ namespace SOA.Util
             return PrintScreen(bounds);
         }
 
+        public Bitmap Capture(int sx, int sy, int dx, int dy)
+        {
+            if(dx - sx  < 0)
+            {
+                sx = sx ^ dx;
+                dx = sx ^ dx;
+                sx = sx ^ dx;
+            }
+
+            if(dy - sy < 0)
+            {
+                sy = sy ^ dy;
+                dy = sy ^ dy;
+                sy = sy ^ dy;
+            }
+
+            Rectangle bounds = new Rectangle(sx, sy, dx - sx, dy - sy);
+
+            return PrintScreen(bounds);
+        }
+
+
         private Bitmap PrintScreen(Rectangle bounds)
         {
             // 1. 화면 픽셀포맷

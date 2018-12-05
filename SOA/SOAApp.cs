@@ -36,17 +36,17 @@ namespace SOA
         public SOAApp()
         {
             SOA = this;
+        }
 
+        public void Run()
+        {
             Keyboard.Init();
             Mouse.Init();
 
             Camera.Init();
             Command.Init();
             Program.Init();
-        }
 
-        public void Run()
-        {
             Application.Run();
         }
     }
