@@ -12,7 +12,7 @@ namespace SOA.Helper
         private readonly int m_System_CoordinateX;
         private readonly int m_System_CoordinateY;
 
-        private const int m_ConvertValue = 65536;
+        private const int m_MappingValue = 65536;
 
         public InputHelper()
         {
@@ -307,8 +307,10 @@ namespace SOA.Helper
 
             if(isAbsolute)
             {
-                x = (x * m_ConvertValue) / m_System_CoordinateX + 1;
-                y = (y * m_ConvertValue) / m_System_CoordinateY + 1;
+                // MOUSEEVENTF_ABSOLUTE 값을 지정하면
+                // 좌표가 (0, 0) ~ (65535, 65535)로 맵핑된다.
+                x = (x * m_MappingValue) / m_System_CoordinateX + 1;
+                y = (y * m_MappingValue) / m_System_CoordinateY + 1;
 
                 moventFlag |= MOUSEEVENTF.MOUSEEVENTF_ABSOLUTE;
             }
