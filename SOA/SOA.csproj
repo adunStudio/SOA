@@ -236,7 +236,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\Camera.cs" />
     <Compile Include="Interface\ICamera.cs" />
-    <Compile Include="Interface\IGui.cs" />
+    <Compile Include="Interface\IGui.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Util\GUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Util\Program.cs" />
     <Compile Include="Win32.cs" />
   </ItemGroup>

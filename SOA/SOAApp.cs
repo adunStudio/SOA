@@ -29,7 +29,9 @@ namespace SOA
         #region Utils
         public ICamera Camera { get; } = new Camera();
         public ICommand Command { get; } = new Command();
-        public IProgram Program { get; } = new Util.Program();
+        public IProgram Program { get; } = new Program();
+
+        public IGui GUI { get; } = new GUI();
         #endregion
 
 
@@ -47,7 +49,7 @@ namespace SOA
             Command.Init();
             Program.Init();
 
-            Application.Run();
+            Application.Run(GUI);
         }
     }
 
