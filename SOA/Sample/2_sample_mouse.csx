@@ -10,12 +10,20 @@ Keyboard.HotKey(Keys.T, () =>
     // 더블 클릭 시뮬레이션 
     //Mouse.DoubleClick(MouseButtons.Left);
 
-    // 절대 이동 시뮬레이션 (픽셀 단위)
-    Mouse.MoveTo(1900, 1000);
+    // 절대 이동 시뮬레이션
+    //Mouse.MoveTo(1900, 1000);
 
-    // 상대 이동 시뮬레이션 (픽셀 단위)
+    // 상대 이동 시뮬레이션
     //Mouse.MoveBy(10, 0);
+
+    // 휠 시뮬레이션 default: (isVertical: true)
+    //Mouse.Wheel(-10);
+
+    // 드래그 시뮬레이션
+    Mouse.Drag(Mouse.X, Mouse.Y, Mouse.X + 100, Mouse.Y + 100);
 });
+
+Mouse.Drag(Mouse.X, Mouse.Y, Mouse.X + 100, Mouse.Y + 100);
 
 
 // 마우스 다운

@@ -21,6 +21,9 @@ namespace SOA.Input
         public event MouseEvent OnMouseDragStart = null;
         public event MouseEvent OnMouseDragEnd = null;
 
+        public int X { get { return m_PreviousX; } }
+        public int Y { get { return m_PreviousY; } }
+
         private MouseButtons m_DoubleButton = MouseButtons.None;
         private MouseButtons m_SingleButton = MouseButtons.None;
 
@@ -49,6 +52,10 @@ namespace SOA.Input
             m_SystemDoubleClickTime = GetDoubleClickTime();
             m_SystemDragX = GetSystemMetrics(SystemMetric.SM_CXDRAG);
             m_SystemDragY = GetSystemMetrics(SystemMetric.SM_CYDRAG);
+
+            PInvoke.POINT mousePoint = GetCursorPos();
+            m_PreviousX = mousePoint.x;
+            m_PreviousY = mousePoint.y;
 
             HookHelper.instance.HookGlobalMouse(HookMouseCallback);
         }
@@ -234,13 +241,17 @@ namespace SOA.Input
             return this;
         }
 
-        public IMouse Wheel(int delta)
+        public IMouse Wheel(int delta, bool isVertical)
         {
+            InputHelper.instance.SendWheel(delta, isVertical);
+
             return this;
         }
 
         public  IMouse Drag(int x, int y, int dx, int dy)
         {
+            InputHelper.instance.SendDrag(x, y, dx, dy);
+
             return this;
         }
 

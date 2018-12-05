@@ -19,6 +19,7 @@ namespace SOA.Helper
             m_System_CoordinateX = GetSystemMetrics(SystemMetric.SM_CXSCREEN);
             m_System_CoordinateY = GetSystemMetrics(SystemMetric.SM_CYSCREEN);
         }
+
         /* 키보드 */
         #region 키보드
 
@@ -212,6 +213,7 @@ namespace SOA.Helper
         #endregion
 
         /* 마우스 */
+        #region 마우스
         public void SendButtonClick(MouseButtons button)
         {
             List<INPUT> inputList = new List<INPUT>();
@@ -326,6 +328,43 @@ namespace SOA.Helper
 
             return movementInput;
         }
+
+        public void SendWheel(int delta, bool isVertical = true)
+        {
+            List<INPUT> inputList = new List<INPUT>();
+
+            inputList.Add(GetMouseWheelInput(delta, isVertical: isVertical));
+
+            Send(inputList);
+        }
+
+        private INPUT GetMouseWheelInput(int delta, bool isVertical)
+        {
+
+            INPUT wheelInput = new INPUT
+            {
+                type = InputType.INPUT_MOUSE,
+            };
+
+            wheelInput.Inputs.mi.dwFlags = isVertical ? MOUSEEVENTF.MOUSEEVENTF_WHEEL : MOUSEEVENTF.MOUSEEVENTF_HWHEEL;
+            wheelInput.Inputs.mi.mouseData = (uint)delta;
+            Console.WriteLine((uint)delta);
+
+            return wheelInput;
+        }
+
+        public void SendDrag(int x, int y, int dx, int dy)
+        {
+            List<INPUT> inputList = new List<INPUT>();
+
+            inputList.Add(GetMouseMovementInput(x, y, isAbsolute: true));
+            inputList.Add(GetMouseButtonDownInput(MouseButtons.Left));
+            inputList.Add(GetMouseMovementInput(dx, dy, isAbsolute: true));
+            inputList.Add(GetMouseButtonUpInput(MouseButtons.Left));
+
+            Send(inputList);
+        }
+        #endregion
 
 
         /* Send */

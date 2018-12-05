@@ -16,6 +16,16 @@ namespace SOA.Interface
         event MouseEvent OnMouseDragStart;
         event MouseEvent OnMouseDragEnd;
 
+        int X
+        {
+            get;
+        }
+
+        int Y
+        {
+            get;
+        }
+
         IMouse MoveTo(int x, int y);
 
         IMouse MoveBy(int x, int y);
@@ -24,7 +34,7 @@ namespace SOA.Interface
 
         IMouse DoubleClick(MouseButtons button);
 
-        IMouse Wheel(int delta);
+        IMouse Wheel(int delta, bool isVertical = true);
 
         IMouse Drag(int x, int y, int dx, int dy);
 
