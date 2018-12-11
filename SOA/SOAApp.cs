@@ -9,11 +9,10 @@ using System.Text;
 using System.Globalization;
 
 using SOA.Interface;
-using SOA.Extension;
-using SOA.WindowAPI;
 using SOA.Helper;
 using SOA.Input;
 using SOA.Util;
+using SOA.Graphic;
 
 namespace SOA
 {
@@ -30,7 +29,10 @@ namespace SOA
         public ICamera Camera { get; } = new Camera();
         public ICommand Command { get; } = new Command();
         public IProgram Program { get; } = new Program();
+        #endregion
 
+        #region GUI
+        public IMsgBox MsgBox = new MsgBox();
         public IGui GUI { get; } = new GUI();
         #endregion
 
@@ -49,7 +51,7 @@ namespace SOA
             Command.Init();
             Program.Init();
 
-            Application.Run(GUI);
+            Application.Run(FormHelper.instance);
         }
     }
 

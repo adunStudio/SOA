@@ -11,9 +11,9 @@ Keyboard.ComboKey(Keys.LControlKey, Keys.LShiftKey, Keys.D4, () =>
 
     captureMode = true;
 
-    GUI.Cursor = Cursors.Cross;
-    GUI.BackColor = Color.White;
-    GUI.Opacity = 0.5f;
+    GUI.SetCursor(Cursors.Cross);
+    GUI.SetTransparency(false);
+    GUI.SetOpacity(0.5f);
 
     Console.WriteLine("[Capture Program] Ready");
 });
@@ -60,11 +60,12 @@ Keyboard.UpKey(Keys.Escape, () =>
 
 void CaptureProgramEnd()
 {
-    GUI.Cursor = Cursors.Default;
-    GUI.BackColor = Color.Black;
-    GUI.Invalidate();
+    GUI.SetCursor(Cursors.Default);
+    GUI.SetTransparency(true);
 
     captureMode = false;
 
+    DialogResult result = MsgBox.ShowYesNoCancel("캡쳐 완료", "[Capture Program]");
+    Console.WriteLine(result);
     Console.WriteLine("[Capture Program] End");
 }

@@ -3,29 +3,27 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
 
-using SOA.Interface;
 using static PInvoke.User32;
 using static PInvoke.Kernel32;
 
-namespace SOA.Util
+namespace SOA.Helper
 {
-    public class GUI : IGui
+    class FormHelper : SingletonForm<FormHelper>
     {
         private Rectangle m_FullScreenBounds = Rectangle.Empty;
 
-        public GUI()
+        public FormHelper()
         {
             InitFullScreenInformation();
-
             InitializeComponent();
         }
 
         private void InitFullScreenInformation()
         {
-            foreach(Screen screen in Screen.AllScreens)
+            foreach (Screen screen in Screen.AllScreens)
             {
                 m_FullScreenBounds = Rectangle.Union(m_FullScreenBounds, screen.Bounds);
-            }
+            }             
         }
 
         private void InitializeComponent()
@@ -66,5 +64,9 @@ namespace SOA.Util
             Run();
         }
 
+        public void MsgBox(string text, string caption = "")
+        {
+            System.Windows.Forms.MessageBox.Show(text, caption);
+        }
     }
 }
