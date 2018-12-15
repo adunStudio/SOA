@@ -224,12 +224,14 @@
     <Compile Include="Helper\Singleton.cs" />
     <Compile Include="Input\KeyEventInformation.cs" />
     <Compile Include="Input\MouseEventInformation.cs" />
+    <Compile Include="Interface\IClip.cs" />
     <Compile Include="Interface\IDelay.cs" />
     <Compile Include="Interface\IInit.cs" />
     <Compile Include="Interface\IMouse.cs" />
     <Compile Include="Input\Mouse.cs" />
     <Compile Include="Interface\IMsgBox.cs" />
     <Compile Include="Interface\IProgram.cs" />
+    <None Include="Sample\4_sample_clip.csx" />
     <Compile Include="SOAApp.cs" />
     <Compile Include="Extension\ImageExtension.cs" />
     <Compile Include="Helper\HotKeyHelper.cs" />
@@ -243,6 +245,7 @@
     <Compile Include="Interface\ICamera.cs" />
     <Compile Include="Interface\IGui.cs" />
     <Compile Include="Graphic\GUI.cs" />
+    <Compile Include="Util\Clip.cs" />
     <Compile Include="Util\Program.cs" />
     <Compile Include="Win32.cs" />
   </ItemGroup>

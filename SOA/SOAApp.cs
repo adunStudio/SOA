@@ -22,18 +22,19 @@ namespace SOA
 
         #region Inputs
         public IKeyboard Keyboard { get; } = new Keyboard();
-        public IMouse Mouse { get; } = new Mouse();
+        public IMouse    Mouse    { get; } = new Mouse();
         #endregion
 
         #region Utils
-        public ICamera Camera { get; } = new Camera();
+        public ICamera  Camera  { get; } = new Camera();
         public ICommand Command { get; } = new Command();
         public IProgram Program { get; } = new Program();
+        public IClip    Clip    { get; } = new Clip();
         #endregion
 
         #region GUI
-        public IMsgBox MsgBox = new MsgBox();
-        public IGui GUI { get; } = new GUI();
+        public IMsgBox MsgBox { get; } = new MsgBox();
+        public IGui    GUI    { get; } = new GUI();
         #endregion
 
 
