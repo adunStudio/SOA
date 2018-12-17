@@ -14,5 +14,7 @@ namespace SOA.Interface
         void SetBackgroundColor(Color color);
 
         void SetTransparency(bool isTransparency);
+
+        Button AddButton(string text, int x, int y, int width, int height);
     }
 }

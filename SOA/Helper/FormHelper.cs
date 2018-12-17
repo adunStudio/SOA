@@ -63,10 +63,5 @@ namespace SOA.Helper
         {
             Run();
         }
-
-        public void MsgBox(string text, string caption = "")
-        {
-            System.Windows.Forms.MessageBox.Show(text, caption);
-        }
     }
 }
